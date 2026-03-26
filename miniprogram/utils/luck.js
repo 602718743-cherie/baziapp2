@@ -1,0 +1,139 @@
+/**
+ * 运势计算工具（小程序版）
+ * 使用专业五行算法并去重
+ */
+
+const baziUtil = require('./bazi.js')
+
+// 颜色映射
+const COLOR_MAP = {
+  '木': '绿色系',
+  '火': '红色系',
+  '土': '黄色/棕色系',
+  '金': '白色系',
+  '水': '黑色/蓝色系'
+}
+
+const ALL_COLORS = ['绿色系', '红色系', '黄色/棕色系', '白色系', '黑色/蓝色系']
+
+const luckUtil = {
+  getRelation(me, day) {
+    const sheng = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' }
+    const ke = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
+    
+    if (me === day) return '助'
+    if (sheng[day] === me) return '生'
+    if (sheng[me] === day) return '泄'
+    if (ke[day] === me) return '制'
+    if (ke[me] === day) return '克'
+    return '平'
+  },
+
+  getClothingAdvice(mainWuxing, dayWuxing) {
+    const relation = this.getRelation(mainWuxing, dayWuxing)
+    const ke = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
+    
+    let advice = {
+      relation: relation,
+      suitable: [],
+      unsuitable: [],
+      normal: [],
+      mood: '',
+      activity: ''
+    }
+    
+    if (['助', '生'].includes(relation)) {
+      // 使用Set去重
+      const suitableSet = new Set([COLOR_MAP[mainWuxing], COLOR_MAP[dayWuxing]])
+      advice.suitable = Array.from(suitableSet)
+      
+      const keWuxing = Object.keys(ke).find(k => ke[k] === mainWuxing)
+      advice.unsuitable = keWuxing ? [COLOR_MAP[keWuxing]] : []
+      advice.mood = '状态顺畅，心情舒畅'
+      advice.activity = '适合出行、约会、办事'
+    } else if (['制', '克'].includes(relation)) {
+      advice.suitable = [COLOR_MAP[mainWuxing]]
+      advice.unsuitable = [COLOR_MAP[dayWuxing]]
+      advice.mood = '状态一般，谨慎为上'
+      advice.activity = '适合近处活动、休息'
+    } else {
+      advice.suitable = [COLOR_MAP[mainWuxing]]
+      advice.unsuitable = [COLOR_MAP[dayWuxing]]
+      advice.mood = '状态平稳，保持常态'
+      advice.activity = '适合日常活动'
+    }
+    
+    // 计算平级色系（去重）
+    const usedColors = [...new Set([...advice.suitable, ...advice.unsuitable])]
+    advice.normal = ALL_COLORS.filter(c => !usedColors.includes(c))
+    
+    return advice
+  },
+
+  calcToday(birthDay, birthTime) {
+    const baziInfo = baziUtil.parseBazi(birthDay, birthTime)
+    const today = new Date().toISOString().split('T')[0]
+    const dayInfo = baziUtil.getDayWuxing(today)
+    const advice = this.getClothingAdvice(baziInfo.mainWuxing, dayInfo.wuxing)
+    
+    return {
+      bazi: baziInfo.bazi,
+      mainWuxing: baziInfo.mainWuxing,
+      mainWuxingFull: baziInfo.mainWuxingFull,
+      mainWuxingDisplay: baziInfo.mainWuxingDisplay,
+      mainColor: baziInfo.mainColor,
+      today: {
+        date: today,
+        weekday: dayInfo.weekday,
+        ganZhi: dayInfo.ganZhi,
+        wuxing: dayInfo.wuxing,
+        wuxingFull: dayInfo.wuxingFull,
+        wuxingDisplay: dayInfo.wuxingDisplay,
+        suitable: advice.suitable,
+        unsuitable: advice.unsuitable,
+        normal: advice.normal,
+        mood: advice.mood,
+        activity: advice.activity
+      }
+    }
+  },
+
+  calcWeek(birthDay, birthTime) {
+    const baziInfo = baziUtil.parseBazi(birthDay, birthTime)
+    const weekData = []
+    
+    for (let i = 0; i < 7; i++) {
+      const date = new Date()
+      date.setDate(date.getDate() + i)
+      const dateStr = date.toISOString().split('T')[0]
+      
+      const dayInfo = baziUtil.getDayWuxing(dateStr)
+      const advice = this.getClothingAdvice(baziInfo.mainWuxing, dayInfo.wuxing)
+      
+      weekData.push({
+        date: dateStr,
+        weekday: dayInfo.weekday,
+        ganZhi: dayInfo.ganZhi,
+        wuxing: dayInfo.wuxing,
+        wuxingFull: dayInfo.wuxingFull,
+        wuxingDisplay: dayInfo.wuxingDisplay,
+        suitable: advice.suitable,
+        unsuitable: advice.unsuitable,
+        normal: advice.normal,
+        mood: advice.mood,
+        activity: advice.activity
+      })
+    }
+    
+    return {
+      bazi: baziInfo.bazi,
+      mainWuxing: baziInfo.mainWuxing,
+      mainWuxingFull: baziInfo.mainWuxingFull,
+      mainWuxingDisplay: baziInfo.mainWuxingDisplay,
+      mainColor: baziInfo.mainColor,
+      week: weekData
+    }
+  }
+}
+
+module.exports = luckUtil

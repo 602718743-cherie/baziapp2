@@ -1,0 +1,7 @@
+{
+  "desc": "项目配置文件",
+  "rules": [{
+    "action": "allow",
+    "page": "*"
+  }]
+}

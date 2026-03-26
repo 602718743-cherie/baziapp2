@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "张三",
+    "birthDay": "1990-05-15",
+    "birthTime": "08:30",
+    "isSelf": true
+  },
+  {
+    "id": 2,
+    "name": "李四",
+    "birthDay": "1985-10-20",
+    "birthTime": "14:45",
+    "isSelf": false
+  }
+]

@@ -1,0 +1,112 @@
+/* pages/my/my.wxss */
+.person-item {
+  padding: 24rpx 0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.person-item:last-child {
+  border-bottom: none;
+}
+
+.person-info {
+  flex: 1;
+}
+
+.person-name {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 8rpx;
+}
+
+.person-detail {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+.person-actions {
+  display: flex;
+  gap: 16rpx;
+}
+
+.btn-edit,
+.btn-delete {
+  width: 120rpx;
+  height: 64rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  border: 1px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  padding: 0;
+  line-height: 64rpx;
+}
+
+.btn-delete {
+  color: var(--danger-color);
+  border-color: var(--danger-color);
+}
+
+/* 弹窗样式 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  width: 86%;
+  max-width: 600rpx;
+  background: var(--bg-primary);
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx;
+}
+
+.modal-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 32rpx;
+  color: var(--text-primary);
+}
+
+.form-switch {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 40rpx;
+}
+
+.btn-cancel,
+.btn-confirm {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  border: none;
+}
+
+.btn-cancel {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.btn-confirm {
+  background: var(--primary-color);
+  color: #fff;
+}

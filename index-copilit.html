@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="五行穿衣运势">
+<meta name="msapplication-TileColor" content="#fdf8f2">
+<meta name="theme-color" content="#f6f1eb">
+<title>五行穿衣运势</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;width:100%;-webkit-user-select:none;user-select:none}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Segoe UI",Roboto,sans-serif;background:#f6f1eb;color:#5a3e2b;display:flex;flex-direction:column;padding-bottom:max(50px,env(safe-area-inset-bottom))}
+.header{background:linear-gradient(135deg,#fdfbf8,#faf7f2);padding:12px 16px;border-bottom:1px solid #e6d5b8;text-align:center;padding-top:max(12px,env(safe-area-inset-top))}
+.title{font-size:22px;color:#8b4513;font-weight:600;letter-spacing:0.5px}
+.container{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+.page{display:none}
+.page.active{display:block}
+.card{background:#fffdf8;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.label{font-size:12px;color:#7a5a43;margin-bottom:8px;font-weight:500;display:block}
+.input{width:100%;padding:11px;border:1px solid #d9c8b4;border-radius:8px;margin-bottom:10px;font-size:16px;background:#fafafa;-webkit-appearance:none;appearance:none;-webkit-border-radius:8px}
+.input:focus{outline:none;border-color:#b22222;background:#fff;box-shadow:0 0 0 3px rgba(178,34,34,0.1)}
+.btn{width:100%;padding:13px;background:#b22222;color:white;border:none;border-radius:8px;margin-bottom:8px;font-size:16px;font-weight:600;cursor:pointer;transition:all 0.2s;-webkit-appearance:none;appearance:none;-webkit-border-radius:8px}
+.btn:active{background:#8b1a1a;transform:scale(0.98)}
+.btn-secondary{background:#d9c8b4;color:#5a3e2b}
+.btn-secondary:active{background:#c9b8a4}
+.user-item{background:#fffdf8;border-radius:8px;padding:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;border:1px solid #e6d5b8}
+.user-info{flex:1}
+.user-info p{margin:3px 0;font-size:13px;color:#5a3e2b}
+.user-info .name{font-size:15px;font-weight:600;color:#8b4513}
+.user-actions{display:flex;gap:6px}
+.btn-small{padding:8px 12px;font-size:12px;border-radius:6px;background:#b22222;color:white;border:none;cursor:pointer}
+.btn-small.danger{background:#c9b8a4}
+.empty-state{text-align:center;padding:30px 20px;color:#999}
+.empty-state p{margin:10px 0}
+.nav-bottom{position:fixed;bottom:0;left:0;right:0;background:#fffdf8;border-top:1px solid #e6d5b8;display:flex;padding-bottom:max(8px,env(safe-area-inset-bottom));padding-left:max(0,env(safe-area-inset-left));padding-right:max(0,env(safe-area-inset-right))}
+.nav-item{flex:1;padding:10px;text-align:center;cursor:pointer;font-size:13px;color:#5a3e2b;border-top:3px solid transparent;transition:all 0.3s}
+.nav-item.active{color:#b22222;border-top-color:#b22222;font-weight:600}
+.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:1000;justify-content:center;align-items:center;padding:20px}
+.modal.active{display:flex}
+.modal-content{background:#fffdf8;border-radius:12px;padding:20px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto}
+.modal-title{font-size:18px;font-weight:600;color:#8b4513;margin-bottom:15px}
+.modal-close{float:right;cursor:pointer;font-size:24px;color:#999}
+.form-group{margin-bottom:15px}
+.form-group label{display:block;margin-bottom:5px;font-size:13px;color:#7a5a43;font-weight:500}
+.form-group input{width:100%;padding:10px;border:1px solid #d9c8b4;border-radius:8px;font-size:15px;background:#fafafa}
+.form-group input:focus{outline:none;border-color:#b22222;background:#fff}
+.modal-actions{display:flex;gap:10px;margin-top:20px}
+.modal-actions button{flex:1;padding:12px;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer}
+.modal-actions .confirm{background:#b22222;color:white}
+.modal-actions .cancel{background:#e6d5b8;color:#5a3e2b}
+.tabs{display:flex;gap:0;background:#faf7f2;border-bottom:2px solid #e6d5b8;margin-bottom:10px}
+.tab{flex:1;padding:10px;text-align:center;border:none;border-radius:0;background:transparent;border-bottom:3px solid transparent;color:#5a3e2b;font-size:14px;cursor:pointer;transition:all 0.3s;-webkit-appearance:none;appearance:none}
+.tab.active{background:#fffdf8;border-bottom-color:#b22222;color:#b22222;font-weight:600}
+@media (prefers-color-scheme: dark){body{background:#2a2420;color:#d4c5b0}.header{background:#332d27;border-bottom-color:#4a3f35}.card,.user-item{background:#3a3530;border-color:#4a3f35}.input{background:#4a3f35;border-color:#5a4f45;color:#d4c5b0}.input:focus{background:#5a4f45}.nav-bottom{background:#3a3530;border-top-color:#4a3f35}.modal-content{background:#3a3530}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1 class="title">🧧 五行穿衣运势</h1>
+</div>
+
+<div class="container">
+  <div class="content">
+    <div id="page-my" class="page">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+          <h2 style="font-size:18px;color:#8b4513;font-weight:600">我的用户信息</h2>
+          <button class="btn" style="width:60px;padding:8px;margin:0" onclick="openAddUserModal()">+ 新增</button>
+        </div>
+        <div id="userList"></div>
+      </div>
+    </div>
+
+    <div id="page-query" class="page active">
+      <div class="card">
+        <h2 style="font-size:16px;color:#8b4513;margin-bottom:12px">查询运势</h2>
+        <div class="tabs" style="margin-bottom:15px">
+          <button class="tab active" onclick="switchQueryType('today')">今日</button>
+          <button class="tab" onclick="switchQueryType('week')">当周</button>
+        </div>
+
+        <label class="label">快捷选择用户</label>
+        <select class="input" id="quickUserSelect" onchange="fillQuickUser()">
+          <option value="">-- 选择用户 --</option>
+        </select>
+
+        <label class="label">或手动填写</label>
+        <label class="label" style="font-size:12px;color:#7a5a43;margin-bottom:4px">出生年月日</label>
+        <input class="input" type="date" id="manualDate" style="margin-bottom:8px">
+        <label class="label" style="font-size:12px;color:#7a5a43;margin-bottom:4px">出生时间</label>
+        <input class="input" type="time" id="manualTime" style="margin-bottom:15px">
+
+        <div style="margin-bottom:15px">
+          <label class="label">历史输入 (最近5条)</label>
+          <div id="historyList"></div>
+        </div>
+
+        <button class="btn" onclick="queryFortune()">查询运势</button>
+      </div>
+    </div>
+
+    <div id="page-result" class="page">
+      <button class="btn btn-secondary" onclick="backToQuery()" style="margin-bottom:15px">← 返回查询</button>
+      <div class="card">
+        <h2 id="resultTitle" style="font-size:18px;color:#8b4513;margin-bottom:15px">今日运势</h2>
+        <div id="resultContent"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-bottom">
+  <div class="nav-item active" onclick="switchPage('query')">🔮 查询</div>
+  <div class="nav-item" onclick="switchPage('my')">👤 我的</div>
+</div>
+
+<div id="userModal" class="modal">
+  <div class="modal-content">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+      <div class="modal-title">用户信息</div>
+      <span class="modal-close" onclick="closeUserModal()">&times;</span>
+    </div>
+    <form onsubmit="saveUser(event)">
+      <div class="form-group">
+        <label>命名</label>
+        <input type="text" id="modalName" required>
+      </div>
+      <div class="form-group">
+        <label>出生年月日</label>
+        <input type="date" id="modalDate" required>
+      </div>
+      <div class="form-group">
+        <label>出生时间</label>
+        <input type="time" id="modalTime" required>
+      </div>
+      <div class="modal-actions">
+        <button type="submit" class="confirm">确认</button>
+        <button type="button" class="cancel" onclick="closeUserModal()">取消</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+let currentPage = 'query';
+let currentEditingId = null;
+let queryType = 'today';
+
+function switchPage(page, event){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  
+  // 根据page参数手动高亮导航栏（优先这个方式，更可靠）
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach((n, i) => {
+    const isActive = (i === 0 && page === 'query') || (i === 1 && page === 'my');
+    if(isActive) n.classList.add('active');
+  });
+  
+  currentPage = page;
+  if(page === 'query') loadHistoryList();
+}
+
+function switchQueryType(type){
+  queryType = type;
+  document.querySelectorAll('#page-query .tab').forEach((t,i) => {
+    t.classList.toggle('active', (i===0 && type==='today') || (i===1 && type==='week'));
+  });
+}
+
+function openAddUserModal(){
+  currentEditingId = null;
+  document.getElementById('modalName').value = '';
+  document.getElementById('modalDate').value = '';
+  document.getElementById('modalTime').value = '';
+  document.getElementById('userModal').classList.add('active');
+}
+
+function closeUserModal(){
+  document.getElementById('userModal').classList.remove('active');
+}
+
+function saveUser(e){
+  e.preventDefault();
+  const name = document.getElementById('modalName').value.trim();
+  const date = document.getElementById('modalDate').value;
+  const time = document.getElementById('modalTime').value;
+  
+  if(!name || !date || !time){
+    alert('请填写完整信息');
+    return;
+  }
+
+  let users = JSON.parse(localStorage.getItem('users') || '[]');
+  
+  if(currentEditingId !== null){
+    users = users.map(u => u.id === currentEditingId ? {id:u.id, name, birthDate:date, birthTime:time} : u);
+    alert('修改成功');
+  }else{
+    const newId = Date.now();
+    users.push({id: newId, name, birthDate: date, birthTime: time});
+    alert('新增成功');
+  }
+  
+  localStorage.setItem('users', JSON.stringify(users));
+  closeUserModal();
+  loadUserList();
+  loadQuickUserSelect();
+}
+
+function loadUserList(){
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  users.sort((a,b) => a.name.localeCompare(b.name));
+  
+  const listHtml = users.length ? users.map(u => `
+    <div class="user-item">
+      <div class="user-info">
+        <div class="name">${u.name}</div>
+        <p>${u.birthDate} ${u.birthTime}</p>
+      </div>
+      <div class="user-actions">
+        <button class="btn-small" onclick="editUser(${u.id})">编辑</button>
+        <button class="btn-small danger" onclick="deleteUser(${u.id})">删除</button>
+      </div>
+    </div>
+  `).join('') : '<div class="empty-state"><p>暂无存储用户，点击新增添加</p></div>';
+  
+  document.getElementById('userList').innerHTML = listHtml;
+}
+
+function editUser(id){
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const user = users.find(u => u.id === id);
+  if(!user) return;
+  
+  currentEditingId = id;
+  document.getElementById('modalName').value = user.name;
+  document.getElementById('modalDate').value = user.birthDate;
+  document.getElementById('modalTime').value = user.birthTime;
+  document.getElementById('userModal').classList.add('active');
+}
+
+function deleteUser(id){
+  if(!confirm('确认删除此用户？')) return;
+  let users = JSON.parse(localStorage.getItem('users') || '[]');
+  users = users.filter(u => u.id !== id);
+  localStorage.setItem('users', JSON.stringify(users));
+  
+  const lastSelectedId = localStorage.getItem('lastSelectedUserId');
+  if(parseInt(lastSelectedId) === id){
+    localStorage.removeItem('lastSelectedUserId');
+  }
+  
+  alert('删除成功');
+  loadUserList();
+  loadQuickUserSelect();
+}
+
+function loadQuickUserSelect(){
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  users.sort((a,b) => a.name.localeCompare(b.name));
+  const options = '<option value="">-- 选择用户 --</option>' + users.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+  document.getElementById('quickUserSelect').innerHTML = options;
+  
+  const lastSelectedId = localStorage.getItem('lastSelectedUserId');
+  if(lastSelectedId){
+    document.getElementById('quickUserSelect').value = lastSelectedId;
+  }
+}
+
+function fillQuickUser(){
+  const id = document.getElementById('quickUserSelect').value;
+  if(!id) return;
+  localStorage.setItem('lastSelectedUserId', id);
+  const users = JSON.parse(localStorage.getItem('users') || '[]');
+  const user = users.find(u => u.id === parseInt(id));
+  if(user){
+    const hour = user.birthTime.split(':')[0];
+    queryFortune(user.birthDate, hour, user.name);
+  }
+}
+
+function loadHistoryList(){
+  const history = JSON.parse(localStorage.getItem('queryHistory') || '[]');
+  const html = history.slice(0,5).map(h => `
+    <div style="background:#f5f0eb;padding:8px;border-radius:6px;margin-bottom:6px;cursor:pointer;font-size:13px" onclick="fillFromHistory('${h.birthDate}','${h.birthTime}')">
+      ${h.birthDate} ${h.birthTime}
+    </div>
+  `).join('') || '<div style="color:#999;font-size:13px">暂无历史记录</div>';
+  document.getElementById('historyList').innerHTML = html;
+}
+
+function fillFromHistory(date, time){
+  document.getElementById('manualDate').value = date;
+  document.getElementById('manualTime').value = time;
+}
+
+async function queryFortune(birthDate, birthHour, userName){
+  if(!birthDate){
+    birthDate = document.getElementById('manualDate').value;
+    birthHour = document.getElementById('manualTime').value.split(':')[0];
+  }
+  
+  if(!birthDate || !birthHour){
+    alert('请选择用户或手动填写日期和时间');
+    return;
+  }
+
+  // 获取查询日期（今天）和当前时间
+  const today = new Date();
+  const queryDate = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  const queryHour = today.getHours();
+
+  try{
+    const res = await fetch('http://localhost:3000/api/calculate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        birthDate, 
+        birthHour: parseInt(birthHour),
+        queryDate,
+        queryHour,
+        queryType
+      })
+    });
+    const {data} = await res.json();
+    
+    let history = JSON.parse(localStorage.getItem('queryHistory') || '[]');
+    const manualTime = document.getElementById('manualTime').value || birthHour + ':00';
+    const exists = history.find(h => h.birthDate === birthDate && h.birthTime === manualTime);
+    if(!exists){
+      history.unshift({birthDate, birthTime: manualTime, timestamp: Date.now()});
+      history = history.slice(0, 5);
+      localStorage.setItem('queryHistory', JSON.stringify(history));
+    }
+
+    const title = queryType === 'today' ? '今日运势' : '当周运势';
+    document.getElementById('resultTitle').innerText = title;
+    const resultHtml = `
+      <div style="margin-bottom:15px">
+        <p style="font-size:13px;color:#999">出生信息：${birthDate} ${manualTime}${userName ? ' (' + userName + ')' : ''}</p>
+        <p style="font-size:13px;color:#999">查询日期：${queryDate}</p>
+      </div>
+      <p>日主：<span>${data.riZhu}</span></p>
+      <p>命主五行：<span>${data.masterWuxing}</span></p>
+      <p>今日五行：<span>${data.todayWuxing}</span></p>
+      <p>🎨 建议颜色：<span>${Array.isArray(data.recommendColor) ? data.recommendColor.join('、') : data.recommendColor}</span></p>
+      <p>❌ 避免颜色：<span>${Array.isArray(data.avoidColor) ? data.avoidColor.join('、') : data.avoidColor}</span></p>
+      <p>👔 穿衣建议：<span>${data.dress}</span></p>
+      <p>😊 今日状态：<span>${data.mood}</span></p>
+      <p>✅ 宜：<span>${data.yi}</span></p>
+      <p>❌ 忌：<span>${data.ji}</span></p>
+      <p>🌟 适合：<span>${data.todo}</span></p>
+      <p>⛔ 不适合：<span>${data.notTodo}</span></p>
+    `;
+    document.getElementById('resultContent').innerHTML = resultHtml;
+    
+    switchPage('result');
+  }catch(e){
+    alert('计算失败，请检查后端服务是否运行');
+    console.error(e);
+  }
+}
+
+function backToQuery(){
+  switchPage('query');
+}
+
+loadUserList();
+loadQuickUserSelect();
+</script>
+</body>
+</html>

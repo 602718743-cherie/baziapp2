@@ -1,0 +1,67 @@
+<!--pages/my/my.wxml-->
+<view class="container">
+  <view class="title">我的信息</view>
+
+  <!-- 新增人员按钮 -->
+  <button class="btn-primary" bindtap="onAddPerson">新增人员</button>
+
+  <!-- 人员列表 -->
+  <view class="card" wx:if="{{persons.length > 0}}">
+    <view class="person-item" wx:for="{{persons}}" wx:key="id">
+      <view class="person-info">
+        <view class="person-name">
+          {{item.name}}
+          <text wx:if="{{item.isSelf}}" class="tag-self">本人</text>
+        </view>
+        <view class="person-detail">{{item.birthDay}} {{item.birthTime}}</view>
+      </view>
+      <view class="person-actions">
+        <button class="btn-edit" bindtap="onEditPerson" data-id="{{item.id}}">编辑</button>
+        <button class="btn-delete" bindtap="onDeletePerson" data-id="{{item.id}}">删除</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    暂无命主信息<br/>点击"新增人员"添加
+  </view>
+</view>
+
+<!-- 编辑弹窗 -->
+<view class="modal" wx:if="{{showModal}}" bindtap="onCloseModal">
+  <view class="modal-content" catchtap="onModalContentTap">
+    <view class="modal-title">{{modalTitle}}</view>
+    
+    <!-- 表单 -->
+    <view class="form-item">
+      <label class="form-label">姓名</label>
+      <input class="form-input" value="{{formData.name}}" placeholder="请输入姓名" bindinput="onNameInput"/>
+    </view>
+
+    <view class="form-item">
+      <label class="form-label">出生日期</label>
+      <picker mode="date" value="{{formData.birthDay}}" bindchange="onBirthDayChange">
+        <view class="picker">{{formData.birthDay || '请选择出生日期'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <label class="form-label">出生时间</label>
+      <picker mode="time" value="{{formData.birthTime}}" bindchange="onBirthTimeChange">
+        <view class="picker">{{formData.birthTime || '请选择出生时间'}}</view>
+      </picker>
+    </view>
+
+    <view class="form-item form-switch">
+      <label class="form-label">是否本人</label>
+      <switch checked="{{formData.isSelf}}" bindchange="onIsSelfChange" color="#007AFF"/>
+    </view>
+
+    <!-- 按钮 -->
+    <view class="modal-buttons">
+      <button class="btn-cancel" bindtap="onCloseModal">取消</button>
+      <button class="btn-confirm" bindtap="onSavePerson">确认</button>
+    </view>
+  </view>
+</view>

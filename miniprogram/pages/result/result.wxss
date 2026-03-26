@@ -1,0 +1,202 @@
+/* pages/result/result.wxss */
+.back-btn {
+  font-size: 28rpx;
+  color: var(--primary-color);
+  margin-bottom: 24rpx;
+  display: inline-block;
+}
+
+.info-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+}
+
+.info-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+  font-size: 28rpx;
+}
+
+.info-label {
+  opacity: 0.9;
+  margin-right: 8rpx;
+}
+
+.info-value {
+  font-weight: 500;
+}
+
+.result-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+  color: var(--text-primary);
+}
+
+.result-date {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+  margin-bottom: 24rpx;
+}
+
+.advice-section {
+  margin: 24rpx 0;
+}
+
+.advice-item {
+  margin-bottom: 24rpx;
+}
+
+.advice-label {
+  font-size: 28rpx;
+  font-weight: 500;
+  margin-bottom: 12rpx;
+  display: inline-block;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+}
+
+.advice-label.suitable {
+  background: #E8F5E9;
+  color: var(--success-color);
+}
+
+.advice-label.unsuitable {
+  background: #FFEBEE;
+  color: var(--danger-color);
+}
+
+.advice-label.normal {
+  background: #FFF3E0;
+  color: var(--warning-color);
+}
+
+.advice-colors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-top: 8rpx;
+}
+
+.color-tag {
+  padding: 8rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+}
+
+.color-tag.suitable {
+  background: var(--success-color);
+  color: #fff;
+}
+
+.color-tag.unsuitable {
+  background: var(--danger-color);
+  color: #fff;
+}
+
+.color-tag.normal {
+  background: var(--warning-color);
+  color: #fff;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 32rpx 0;
+}
+
+.detail-info {
+  margin-top: 24rpx;
+}
+
+.detail-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 16rpx;
+  font-size: 28rpx;
+}
+
+.detail-label {
+  color: var(--text-secondary);
+  margin-right: 8rpx;
+  white-space: nowrap;
+}
+
+.detail-value {
+  flex: 1;
+  color: var(--text-primary);
+}
+
+/* 本周运势样式 */
+.week-item {
+  margin-bottom: 32rpx;
+  padding-bottom: 32rpx;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.week-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.week-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.week-date {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.week-wuxing {
+  font-size: 26rpx;
+  padding: 4rpx 12rpx;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border-radius: 8rpx;
+}
+
+.week-advice {
+  font-size: 26rpx;
+  line-height: 1.6;
+}
+
+.week-advice-row {
+  display: flex;
+  margin-bottom: 8rpx;
+}
+
+.week-label {
+  margin-right: 8rpx;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.week-label.suitable {
+  color: var(--success-color);
+}
+
+.week-label.unsuitable {
+  color: var(--danger-color);
+}
+
+.week-label.normal {
+  color: var(--warning-color);
+}
+
+.week-value {
+  flex: 1;
+  color: var(--text-secondary);
+}
