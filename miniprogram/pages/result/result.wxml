@@ -1,20 +1,18 @@
 <!--pages/result/result.wxml-->
 <view class="result-container">
 
-  <!-- 头部大日期 -->
+  <!-- 头部 -->
   <view class="result-header">
-    <view class="header-tip">五 行 穿 衣 每 日 指 南</view>
-    <view class="header-main">
-      <view class="header-day">{{result.today ? result.today.date.slice(8) : dateDay}}</view>
-      <view class="header-date-info">
-        <view class="header-ym">{{dateYear}}年</view>
-        <view class="header-ym">{{dateMonth}}月</view>
-        <view class="header-ym">{{dateWeekday}}</view>
+    <view class="result-today-row">
+      <view class="result-day">{{dateDay}}</view>
+      <view class="result-date-info">
+        <view class="result-ym">{{dateYear}}年</view>
+        <view class="result-ym">{{dateMonth}}月</view>
+        <view class="result-ym">{{dateWeekday}}</view>
       </view>
+      <view class="result-weekday-big">{{dateWeekday}}</view>
     </view>
-    <view class="header-ganzhi">
-      干支：{{result.today ? result.today.ganZhi : ''}} · 命主：{{result.mainWuxingDisplay}} · {{birthDay}}
-    </view>
+    <view class="result-ganzhi">干支：{{result.today ? result.today.ganZhi : dateGanZhi}} · 命主：{{result.mainWuxingDisplay}} · {{birthDay}}</view>
   </view>
 
   <view class="result-body">

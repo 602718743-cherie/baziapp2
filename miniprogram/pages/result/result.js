@@ -32,11 +32,12 @@ Page({
 
     const weekdays = ['周日','周一','周二','周三','周四','周五','周六']
     const now = new Date()
+    const baziUtil = require('../../utils/bazi.js')
+    const dateGanZhi = result.today ? result.today.ganZhi : baziUtil.getDayGanZhi(now)
 
     let todayAdvice = { ji: [], ciji: [], ping: [], jiacha: [], buyi: [] }
     if (type === 'today' && result.today) {
       const t = result.today
-      // 重新映射到五级分类（使用 luck.js 返回的 suitable/unsuitable）
       todayAdvice = {
         ji:     t.suitable || [],
         ciji:   [],
@@ -55,6 +56,7 @@ Page({
       dateMonth: now.getMonth() + 1,
       dateYear: now.getFullYear(),
       dateWeekday: weekdays[now.getDay()],
+      dateGanZhi,
       todayAdvice
     })
   },

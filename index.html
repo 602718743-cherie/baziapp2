@@ -186,28 +186,22 @@
     /* ===== 结果页 ===== */
     .result-page { padding:0; }
 
-    /* 头部大日期 */
+    /* 头部 - 与查询页日期卡片结构一致 */
     .result-header {
-      background: linear-gradient(160deg,#fdf6e8 0%,#ecdfc7 100%);
-      padding: 10px 14px 10px;
-      border-bottom: 1px solid #d4b896;
-      text-align:center;
-      position: relative;
+      background: linear-gradient(135deg,#fdf6e8,#f5ead0);
+      border: 1px solid #d4b896;
+      border-radius: 10px;
+      margin: 10px 12px 0;
+      padding: 12px 16px 10px;
     }
-    .result-header-title {
-      font-size:11px; color:#9b7455; letter-spacing:4px; margin-bottom:6px;
-    }
-    .result-header-main {
-      display:flex; align-items:center; justify-content:center; gap:14px;
-    }
+    .result-today-row { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
     .result-big-day { font-size:50px; font-weight:bold; color:#8B4513; line-height:1; }
-    .result-date-info { text-align:left; }
-    .result-date-info .ym { font-size:12px; color:#6b4226; line-height:1.7; }
-    .result-lunar-big { font-size:22px; font-weight:bold; color:#8B4513; letter-spacing:2px; }
+    .result-date-info { flex:1; }
+    .result-ym { font-size:12px; color:#6b4226; line-height:1.7; }
+    .result-weekday-big { font-size:20px; font-weight:bold; color:#8B4513; }
     .result-ganzhi {
       font-size:11px; color:#9b7455; letter-spacing:2px;
-      margin-top:6px; padding-top:6px;
-      border-top:1px dashed #d4b896;
+      padding-top:6px; border-top:1px dashed #d4b896;
     }
     .result-master-info {
       display:flex; align-items:center; justify-content:center; gap:6px;
@@ -805,12 +799,14 @@ function queryResult(birthDate, time, type) {
     const ganzhi = WX.getDayGanZhi(dateObj)
     return `
       <div class="result-header">
-        <div class="result-header-title">五 行 穿 衣 每 日 指 南</div>
-        <div class="result-header-main">
+        <div class="result-today-row">
           <div class="result-big-day">${dd}</div>
           <div class="result-date-info">
-            <div class="ym">${yyyy}年<br>${mm}月<br>${dayInfo.weekday}</div>
+            <div class="result-ym">${yyyy}年</div>
+            <div class="result-ym">${mm}月</div>
+            <div class="result-ym">${dayInfo.weekday}</div>
           </div>
+          <div class="result-weekday-big">${dayInfo.weekday}</div>
         </div>
         <div class="result-ganzhi">干支：${ganzhi} &nbsp;·&nbsp; 命主：${meInfo.display} &nbsp;·&nbsp; ${birthDate}</div>
       </div>
@@ -858,8 +854,18 @@ function queryResult(birthDate, time, type) {
     </div>`
     html += `</div>`
   } else {
+    const firstDay = new Date()
+    const firstDayInfo = WX.getDayWx(firstDay.toISOString().split('T')[0])
     html += `<div class="result-header">
-      <div class="result-header-title">五 行 穿 衣 每 日 指 南</div>
+      <div class="result-today-row">
+        <div class="result-big-day">${firstDay.getDate()}</div>
+        <div class="result-date-info">
+          <div class="result-ym">${firstDay.getFullYear()}年</div>
+          <div class="result-ym">${firstDay.getMonth()+1}月</div>
+          <div class="result-ym">${firstDayInfo.weekday}</div>
+        </div>
+        <div class="result-weekday-big">${firstDayInfo.weekday}</div>
+      </div>
       <div class="result-ganzhi">命主：${meInfo.display} &nbsp;·&nbsp; ${birthDate} ${time}</div>
     </div><div class="result-body">`
     html += `<div class="section-block"><div class="result-section-title">本周穿衣 · 出行建议</div>`

@@ -4,21 +4,22 @@
   min-height: 100vh;
 }
 
-/* 头部 */
+/* 头部 - 与查询页 today-card 结构一致 */
 .result-header {
-  background: linear-gradient(160deg, #fdf6e8 0%, #ecdfc7 100%);
+  background: linear-gradient(135deg, #fdf6e8, #f5ead0);
+  border: 1rpx solid #d4b896;
+  margin: 16rpx 24rpx 0;
+  border-radius: 20rpx;
   padding: 20rpx 28rpx 16rpx;
-  border-bottom: 1rpx solid #d4b896;
-  text-align: center;
 }
-.header-tip { font-size: 22rpx; color: #9b7455; letter-spacing: 8rpx; margin-bottom: 12rpx; }
-.header-main { display: flex; align-items: center; justify-content: center; gap: 20rpx; margin-bottom: 10rpx; }
-.header-day { font-size: 100rpx; font-weight: bold; color: #8B4513; line-height: 1; }
-.header-date-info { text-align: left; }
-.header-ym { font-size: 24rpx; color: #6b4226; line-height: 1.7; }
-.header-ganzhi {
+.result-today-row { display: flex; align-items: center; gap: 16rpx; margin-bottom: 10rpx; }
+.result-day { font-size: 88rpx; font-weight: bold; color: #8B4513; line-height: 1; }
+.result-date-info { flex: 1; }
+.result-ym { font-size: 22rpx; color: #6b4226; line-height: 1.7; }
+.result-weekday-big { font-size: 34rpx; font-weight: bold; color: #8B4513; }
+.result-ganzhi {
   font-size: 22rpx; color: #9b7455; letter-spacing: 2rpx;
-  border-top: 1rpx dashed #d4b896; padding-top: 10rpx; margin-top: 6rpx;
+  border-top: 1rpx dashed #d4b896; padding-top: 10rpx;
 }
 
 /* body */
