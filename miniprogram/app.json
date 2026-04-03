@@ -6,10 +6,10 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#007AFF",
-    "navigationBarTitleText": "八字穿衣指南",
+    "navigationBarBackgroundColor": "#8B4513",
+    "navigationBarTitleText": "五行穿衣每日指南",
     "navigationBarTextStyle": "white",
-    "backgroundColor": "#F5F5F5"
+    "backgroundColor": "#f5efe3"
   },
   "tabBar": {
     "color": "#9b8165",

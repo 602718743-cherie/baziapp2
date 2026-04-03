@@ -1,202 +1,114 @@
 /* pages/result/result.wxss */
-.back-btn {
-  font-size: 28rpx;
-  color: var(--primary-color);
-  margin-bottom: 24rpx;
-  display: inline-block;
+.result-container {
+  background: #f5efe3;
+  min-height: 100vh;
 }
 
-.info-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
+/* 头部 */
+.result-header {
+  background: linear-gradient(160deg, #fdf6e8 0%, #ecdfc7 100%);
+  padding: 20rpx 28rpx 16rpx;
+  border-bottom: 1rpx solid #d4b896;
+  text-align: center;
+}
+.header-tip { font-size: 22rpx; color: #9b7455; letter-spacing: 8rpx; margin-bottom: 12rpx; }
+.header-main { display: flex; align-items: center; justify-content: center; gap: 20rpx; margin-bottom: 10rpx; }
+.header-day { font-size: 100rpx; font-weight: bold; color: #8B4513; line-height: 1; }
+.header-date-info { text-align: left; }
+.header-ym { font-size: 24rpx; color: #6b4226; line-height: 1.7; }
+.header-ganzhi {
+  font-size: 22rpx; color: #9b7455; letter-spacing: 2rpx;
+  border-top: 1rpx dashed #d4b896; padding-top: 10rpx; margin-top: 6rpx;
 }
 
-.info-title {
-  font-size: 32rpx;
-  font-weight: bold;
-  margin-bottom: 20rpx;
-}
+/* body */
+.result-body { padding: 16rpx 24rpx 100rpx; }
 
-.info-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12rpx;
-  font-size: 28rpx;
-}
-
-.info-label {
-  opacity: 0.9;
-  margin-right: 8rpx;
-}
-
-.info-value {
-  font-weight: 500;
-}
-
-.result-title {
-  font-size: 34rpx;
-  font-weight: bold;
+/* section块 - 统一容器（穿衣和出行同层级） */
+.section-block {
+  background: #fffdf7;
+  border: 1rpx solid #e2d5be;
+  border-radius: 20rpx;
+  padding: 20rpx 24rpx;
   margin-bottom: 16rpx;
-  color: var(--text-primary);
 }
-
-.result-date {
-  font-size: 26rpx;
-  color: var(--text-secondary);
-  margin-bottom: 24rpx;
+.section-title {
+  font-size: 26rpx; font-weight: bold; color: #6b3a1f;
+  letter-spacing: 4rpx; margin-bottom: 12rpx;
+  display: flex; align-items: center;
 }
-
-.advice-section {
-  margin: 24rpx 0;
-}
-
-.advice-item {
-  margin-bottom: 24rpx;
-}
-
-.advice-label {
-  font-size: 28rpx;
-  font-weight: 500;
-  margin-bottom: 12rpx;
+.section-title::before {
+  content: '';
   display: inline-block;
-  padding: 4rpx 16rpx;
-  border-radius: 8rpx;
+  width: 6rpx; height: 28rpx;
+  background: #8B4513; border-radius: 3rpx; margin-right: 12rpx;
 }
 
-.advice-label.suitable {
-  background: #E8F5E9;
-  color: var(--success-color);
+/* 每条建议行 */
+.advice-row {
+  display: flex; gap: 16rpx; align-items: flex-start;
+  padding: 12rpx 0;
+  border-bottom: 1rpx dashed #efe4d0;
 }
+.advice-row:last-child { border-bottom: none; padding-bottom: 0; }
 
-.advice-label.unsuitable {
-  background: #FFEBEE;
-  color: var(--danger-color);
+/* 左侧色点 - 统一 18rpx */
+.row-dot {
+  width: 18rpx; height: 18rpx; border-radius: 50%; flex-shrink: 0; margin-top: 8rpx;
 }
+.ji-dot     { background: #2ecc71; }
+.ciji-dot   { background: #3498db; }
+.ping-dot   { background: #f0c430; }
+.jiacha-dot { background: #aaaaaa; }
+.buyi-dot   { background: #e74c3c; }
+.mood-dot   { background: #9b59b6; }
+.goyi-dot   { background: #27ae60; }
 
-.advice-label.normal {
-  background: #FFF3E0;
-  color: var(--warning-color);
+/* 右侧内容 - 统一字号 */
+.row-body { flex: 1; min-width: 0; }
+.row-title { font-size: 24rpx; font-weight: bold; margin-bottom: 6rpx; line-height: 1.3; }
+.ji-text    { color: #1a8a4a; }
+.ciji-text  { color: #1a68a8; }
+.ping-text  { color: #a07c10; }
+.jiacha-text{ color: #666; }
+.buyi-text  { color: #c0392b; }
+.mood-text  { color: #7b3fa0; }
+.goyi-text  { color: #1a7a40; }
+.row-desc { font-size: 22rpx; color: #7a6a58; line-height: 1.6; }
+
+/* 颜色小色块 */
+.row-colors { display: flex; flex-wrap: wrap; gap: 8rpx; align-items: center; margin-bottom: 6rpx; }
+.color-swatch-wrap { display: flex; align-items: center; gap: 6rpx; margin-right: 4rpx; }
+.color-swatch {
+  width: 24rpx; height: 24rpx; border-radius: 6rpx;
+  border: 1rpx solid rgba(0,0,0,0.1); flex-shrink: 0;
 }
+.swatch-label { font-size: 22rpx; color: #5a4a38; }
 
-.advice-colors {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12rpx;
-  margin-top: 8rpx;
+/* 周运势 */
+.week-card {
+  background: #fdf8f0; border: 1rpx solid #ecdcbe;
+  border-radius: 16rpx; padding: 16rpx; margin-bottom: 12rpx;
 }
-
-.color-tag {
-  padding: 8rpx 16rpx;
-  border-radius: 8rpx;
-  font-size: 26rpx;
-}
-
-.color-tag.suitable {
-  background: var(--success-color);
-  color: #fff;
-}
-
-.color-tag.unsuitable {
-  background: var(--danger-color);
-  color: #fff;
-}
-
-.color-tag.normal {
-  background: var(--warning-color);
-  color: #fff;
-}
-
-.divider {
-  height: 1px;
-  background: var(--border-color);
-  margin: 32rpx 0;
-}
-
-.detail-info {
-  margin-top: 24rpx;
-}
-
-.detail-item {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 16rpx;
-  font-size: 28rpx;
-}
-
-.detail-label {
-  color: var(--text-secondary);
-  margin-right: 8rpx;
-  white-space: nowrap;
-}
-
-.detail-value {
-  flex: 1;
-  color: var(--text-primary);
-}
-
-/* 本周运势样式 */
-.week-item {
-  margin-bottom: 32rpx;
-  padding-bottom: 32rpx;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.week-item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
 .week-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16rpx;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10rpx; padding-bottom: 10rpx;
+  border-bottom: 1rpx dashed #e2d5be;
 }
-
-.week-date {
-  font-size: 30rpx;
-  font-weight: 500;
-  color: var(--text-primary);
+.week-date { font-size: 26rpx; font-weight: bold; color: #6b3a1f; }
+.week-wx-tag {
+  font-size: 22rpx; padding: 4rpx 16rpx; border-radius: 20rpx;
+  background: #f5ede0; color: #8B4513; border: 1rpx solid #d4b896;
 }
-
-.week-wuxing {
-  font-size: 26rpx;
-  padding: 4rpx 12rpx;
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-  border-radius: 8rpx;
+.week-colors { margin-bottom: 8rpx; }
+.week-row { display: flex; align-items: center; gap: 8rpx; margin-bottom: 6rpx; flex-wrap: wrap; }
+.week-label { font-size: 22rpx; font-weight: bold; flex-shrink: 0; }
+.color-swatch-sm {
+  width: 18rpx; height: 18rpx; border-radius: 4rpx;
+  border: 1rpx solid rgba(0,0,0,0.1);
 }
-
-.week-advice {
-  font-size: 26rpx;
-  line-height: 1.6;
-}
-
-.week-advice-row {
-  display: flex;
-  margin-bottom: 8rpx;
-}
-
-.week-label {
-  margin-right: 8rpx;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-.week-label.suitable {
-  color: var(--success-color);
-}
-
-.week-label.unsuitable {
-  color: var(--danger-color);
-}
-
-.week-label.normal {
-  color: var(--warning-color);
-}
-
-.week-value {
-  flex: 1;
-  color: var(--text-secondary);
+.swatch-label-sm { font-size: 20rpx; color: #5a4a38; margin-right: 4rpx; }
+.week-go {
+  font-size: 22rpx; color: #7a6a58; line-height: 1.6;
+  padding-top: 8rpx; border-top: 1rpx dashed #e8dcc8;
 }

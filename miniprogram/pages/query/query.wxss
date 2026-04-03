@@ -1,43 +1,55 @@
 /* pages/query/query.wxss */
-.tabs {
-  display: flex;
-  gap: 24rpx;
-  margin-bottom: 32rpx;
-}
 
-.tab {
-  flex: 1;
+/* 头部 */
+.query-header {
   text-align: center;
-  padding: 16rpx 0;
-  background: var(--bg-primary);
-  border-radius: 16rpx;
-  font-size: 30rpx;
-  color: var(--text-secondary);
-  transition: all 0.3s;
+  padding: 20rpx 0 16rpx;
+  border-bottom: 1rpx solid #ddd0b8;
+  margin-bottom: 16rpx;
+}
+.header-logo { font-size: 44rpx; margin-bottom: 4rpx; }
+.header-title { font-size: 32rpx; font-weight: bold; color: #6b3a1f; letter-spacing: 6rpx; }
+.header-sub { font-size: 22rpx; color: #9b8165; margin-top: 4rpx; letter-spacing: 4rpx; }
+
+/* 今日日期卡片 */
+.today-card {
+  background: linear-gradient(135deg, #fdf6e8, #f5ead0);
+  border: 1rpx solid #d4b896;
+  border-radius: 20rpx;
+  padding: 20rpx 28rpx;
+  margin-bottom: 16rpx;
+}
+.today-row { display: flex; align-items: center; gap: 16rpx; margin-bottom: 10rpx; }
+.today-day { font-size: 88rpx; font-weight: bold; color: #8B4513; line-height: 1; }
+.today-info { flex: 1; }
+.today-ym { font-size: 22rpx; color: #6b4226; line-height: 1.7; }
+.today-weekday-big { font-size: 34rpx; font-weight: bold; color: #8B4513; }
+.today-ganzhi {
+  font-size: 22rpx; color: #9b7455; letter-spacing: 4rpx;
+  border-top: 1rpx dashed #d4b896; padding-top: 12rpx;
 }
 
-.tab.active {
-  background: var(--primary-color);
-  color: #fff;
-  font-weight: 500;
+/* 查询类型 tabs */
+.tabs { display: flex; gap: 16rpx; margin-bottom: 16rpx; }
+.tab {
+  flex: 1; text-align: center; padding: 14rpx 0;
+  border-radius: 36rpx; background: #f0e8d8;
+  font-size: 26rpx; color: #9b8165;
+  border: 1rpx solid #d4c4a8;
 }
+.tab.active { background: #8B4513; color: #fff; border-color: #8B4513; }
 
+/* picker */
 .picker {
   width: 100%;
-  height: 88rpx;
-  border: 1px solid var(--border-color);
+  height: 72rpx;
+  border: 1rpx solid #d4c4a8;
   border-radius: 16rpx;
   padding: 0 24rpx;
-  font-size: 30rpx;
+  font-size: 26rpx;
+  background: #fffdf7;
+  color: #3a2a18;
   display: flex;
   align-items: center;
-  background: var(--bg-primary);
-}
-
-.temp-input-btn {
-  text-align: center;
-  color: var(--primary-color);
-  font-size: 28rpx;
-  padding: 16rpx 0;
-  margin-bottom: 16rpx;
+  box-sizing: border-box;
 }

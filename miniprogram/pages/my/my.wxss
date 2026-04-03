@@ -1,112 +1,77 @@
 /* pages/my/my.wxss */
-.person-item {
-  padding: 24rpx 0;
-  border-bottom: 1px solid var(--border-color);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.person-item:last-child {
-  border-bottom: none;
-}
-
-.person-info {
-  flex: 1;
-}
-
-.person-name {
-  font-size: 30rpx;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin-bottom: 8rpx;
-}
-
-.person-detail {
-  font-size: 26rpx;
-  color: var(--text-secondary);
-}
-
-.person-actions {
-  display: flex;
-  gap: 16rpx;
-}
-
-.btn-edit,
-.btn-delete {
-  width: 120rpx;
-  height: 64rpx;
-  border-radius: 12rpx;
-  font-size: 26rpx;
-  border: 1px solid var(--border-color);
-  background: var(--bg-primary);
-  color: var(--text-secondary);
-  padding: 0;
-  line-height: 64rpx;
-}
-
-.btn-delete {
-  color: var(--danger-color);
-  border-color: var(--danger-color);
-}
-
-/* 弹窗样式 */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.modal-content {
-  width: 86%;
-  max-width: 600rpx;
-  background: var(--bg-primary);
-  border-radius: 24rpx;
-  padding: 40rpx 32rpx;
-}
-
-.modal-title {
-  font-size: 34rpx;
-  font-weight: bold;
+.my-header {
   text-align: center;
-  margin-bottom: 32rpx;
-  color: var(--text-primary);
+  padding: 16rpx 0 14rpx;
+  border-bottom: 1rpx solid #ddd0b8;
+  margin-bottom: 16rpx;
+}
+.my-header-title { font-size: 32rpx; font-weight: bold; color: #6b3a1f; letter-spacing: 4rpx; }
+
+/* 人员卡片 */
+.person-card {
+  background: #fffdf7;
+  border: 1rpx solid #e2d5be;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+}
+.person-top { display: flex; gap: 20rpx; align-items: flex-start; margin-bottom: 16rpx; }
+.person-avatar {
+  width: 72rpx; height: 72rpx; border-radius: 50%;
+  background: linear-gradient(135deg, #d4a574, #8B4513);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36rpx; flex-shrink: 0;
+}
+.person-right { flex: 1; }
+.person-name { font-size: 30rpx; font-weight: bold; color: #3a2a18; margin-bottom: 6rpx; }
+.person-detail { font-size: 24rpx; color: #9b8165; margin-bottom: 4rpx; }
+.person-wx { font-size: 22rpx; color: #8B4513; }
+
+.person-btns { display: flex; gap: 16rpx; }
+.btn-edit {
+  flex: 1; height: 60rpx; border-radius: 30rpx;
+  border: 1rpx solid #d4c4a8; background: #f5ede0;
+  font-size: 24rpx; color: #8B4513; font-family: inherit;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-delete {
+  flex: 1; height: 60rpx; border-radius: 30rpx;
+  border: 1rpx solid #e8b4b4; background: #fff5f5;
+  font-size: 24rpx; color: #c0392b; font-family: inherit;
+  display: flex; align-items: center; justify-content: center;
 }
 
-.form-switch {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* 弹窗 */
+.modal {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999;
 }
-
-.modal-buttons {
-  display: flex;
-  gap: 24rpx;
-  margin-top: 40rpx;
+.modal-mask {
+  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
 }
-
-.btn-cancel,
-.btn-confirm {
-  flex: 1;
-  height: 88rpx;
-  border-radius: 16rpx;
-  font-size: 30rpx;
-  border: none;
+.modal-box {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: #fffdf7;
+  border-radius: 32rpx 32rpx 0 0;
+  padding: 40rpx 32rpx 60rpx;
+  border-top: 1rpx solid #d4b896;
 }
-
+.modal-title {
+  font-size: 32rpx; font-weight: bold; text-align: center;
+  color: #6b3a1f; margin-bottom: 32rpx;
+}
+.form-switch-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16rpx 0;
+}
+.modal-btns { display: flex; gap: 24rpx; margin-top: 32rpx; }
 .btn-cancel {
-  background: var(--bg-secondary);
-  color: var(--text-primary);
+  flex: 1; height: 80rpx; border-radius: 40rpx;
+  border: 1rpx solid #d4c4a8; background: #f5ede0;
+  font-size: 28rpx; color: #9b8165; font-family: inherit;
 }
-
 .btn-confirm {
-  background: var(--primary-color);
-  color: #fff;
+  flex: 1; height: 80rpx; border-radius: 40rpx; border: none;
+  background: linear-gradient(135deg, #a0522d, #8B4513);
+  font-size: 28rpx; color: #fff; font-family: inherit;
 }

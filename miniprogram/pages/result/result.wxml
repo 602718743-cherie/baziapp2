@@ -1,103 +1,156 @@
 <!--pages/result/result.wxml-->
-<view class="container">
-  <!-- 返回按钮 -->
-  <view class="back-btn" bindtap="onBack">
-    ← 返回
-  </view>
+<view class="result-container">
 
-  <!-- 命主基础信息 -->
-  <view class="card info-card">
-    <view class="info-title">命主信息</view>
-    <view class="info-item">
-      <text class="info-label">八字：</text>
-      <text class="info-value">{{result.bazi}}</text>
+  <!-- 头部大日期 -->
+  <view class="result-header">
+    <view class="header-tip">五 行 穿 衣 每 日 指 南</view>
+    <view class="header-main">
+      <view class="header-day">{{result.today ? result.today.date.slice(8) : dateDay}}</view>
+      <view class="header-date-info">
+        <view class="header-ym">{{dateYear}}年</view>
+        <view class="header-ym">{{dateMonth}}月</view>
+        <view class="header-ym">{{dateWeekday}}</view>
+      </view>
     </view>
-    <view class="info-item">
-      <text class="info-label">命主五行：</text>
-      <text class="info-value">{{result.mainWuxingDisplay}}</text>
-    </view>
-    <view class="info-item">
-      <text class="info-label">对应色系：</text>
-      <text class="info-value">{{result.mainColor}}</text>
+    <view class="header-ganzhi">
+      干支：{{result.today ? result.today.ganZhi : ''}} · 命主：{{result.mainWuxingDisplay}} · {{birthDay}}
     </view>
   </view>
 
-  <!-- 今日运势 -->
-  <view wx:if="{{type === 'today'}}" class="card">
-    <view class="result-title">今日穿衣建议</view>
-    <view class="result-date">{{result.today.date}} {{result.today.weekday}}</view>
-    <view class="result-day-wuxing">当日五行：{{result.today.wuxingDisplay}}</view>
+  <view class="result-body">
 
-    <view class="advice-section">
-      <view class="advice-item">
-        <view class="advice-label suitable">适合</view>
-        <view class="advice-colors">
-          <view class="color-tag suitable" wx:for="{{result.today.suitable}}" wx:key="index">
-            {{item}}
+    <!-- 今日穿衣 -->
+    <view wx:if="{{type === 'today'}}">
+
+      <!-- 穿衣建议 section -->
+      <view class="section-block">
+        <view class="section-title">👗 今日穿衣建议</view>
+
+        <!-- 吉 -->
+        <view class="advice-row" wx:if="{{todayAdvice.ji.length > 0}}">
+          <view class="row-dot ji-dot"></view>
+          <view class="row-body">
+            <view class="row-title ji-text">吉《贵人色》</view>
+            <view class="row-colors">
+              <view wx:for="{{todayAdvice.ji}}" wx:key="*this" class="color-swatch-wrap">
+                <view class="color-swatch" style="background:{{colorMap[item]}}"></view>
+                <text class="swatch-label">{{item}}</text>
+              </view>
+            </view>
+            <view class="row-desc">与当日五行相生，为贵人色，易招贵人，易获扶助，与整体环境磁场合一。</view>
           </view>
-          <text wx:if="{{result.today.suitable.length === 0}}" class="empty-tip">—</text>
+        </view>
+
+        <!-- 次吉 -->
+        <view class="advice-row" wx:if="{{todayAdvice.ciji.length > 0}}">
+          <view class="row-dot ciji-dot"></view>
+          <view class="row-body">
+            <view class="row-title ciji-text">次吉《合作色》</view>
+            <view class="row-colors">
+              <view wx:for="{{todayAdvice.ciji}}" wx:key="*this" class="color-swatch-wrap">
+                <view class="color-swatch" style="background:{{colorMap[item]}}"></view>
+                <text class="swatch-label">{{item}}</text>
+              </view>
+            </view>
+            <view class="row-desc">与当日五行相符，为幸运色，适合商务沟通、谈判合作等。</view>
+          </view>
+        </view>
+
+        <!-- 平 -->
+        <view class="advice-row" wx:if="{{todayAdvice.ping.length > 0}}">
+          <view class="row-dot ping-dot"></view>
+          <view class="row-body">
+            <view class="row-title ping-text">平</view>
+            <view class="row-colors">
+              <view wx:for="{{todayAdvice.ping}}" wx:key="*this" class="color-swatch-wrap">
+                <view class="color-swatch" style="background:{{colorMap[item]}}"></view>
+                <text class="swatch-label">{{item}}</text>
+              </view>
+            </view>
+            <view class="row-desc">与当日五行相克，为奋斗进财色，需付出更多努力，可通过自身努力调节带旺。</view>
+          </view>
+        </view>
+
+        <!-- 较差 -->
+        <view class="advice-row" wx:if="{{todayAdvice.jiacha.length > 0}}">
+          <view class="row-dot jiacha-dot"></view>
+          <view class="row-body">
+            <view class="row-title jiacha-text">较差《消耗色》</view>
+            <view class="row-colors">
+              <view wx:for="{{todayAdvice.jiacha}}" wx:key="*this" class="color-swatch-wrap">
+                <view class="color-swatch" style="background:{{colorMap[item]}}"></view>
+                <text class="swatch-label">{{item}}</text>
+              </view>
+            </view>
+            <view class="row-desc">生日五行，万事会较累，适合内心强大的人挑战下。</view>
+          </view>
+        </view>
+
+        <!-- 不宜 -->
+        <view class="advice-row" wx:if="{{todayAdvice.buyi.length > 0}}">
+          <view class="row-dot buyi-dot"></view>
+          <view class="row-body">
+            <view class="row-title buyi-text">不宜《不利色》</view>
+            <view class="row-colors">
+              <view wx:for="{{todayAdvice.buyi}}" wx:key="*this" class="color-swatch-wrap">
+                <view class="color-swatch" style="background:{{colorMap[item]}}"></view>
+                <text class="swatch-label">{{item}}</text>
+              </view>
+            </view>
+            <view class="row-desc">大环境克你，办事成效差，易导致运势低下，徒劳无功之事发生。</view>
+          </view>
         </view>
       </view>
 
-      <view class="advice-item">
-        <view class="advice-label unsuitable">不适合</view>
-        <view class="advice-colors">
-          <view class="color-tag unsuitable" wx:for="{{result.today.unsuitable}}" wx:key="index">
-            {{item}}
+      <!-- 出行建议 section（同层级） -->
+      <view class="section-block">
+        <view class="section-title">🗺️ 今日出行建议</view>
+        <view class="advice-row">
+          <view class="row-dot mood-dot"></view>
+          <view class="row-body">
+            <view class="row-title mood-text">心情状态</view>
+            <view class="row-desc">{{result.today.mood}}</view>
           </view>
-          <text wx:if="{{result.today.unsuitable.length === 0}}" class="empty-tip">—</text>
         </view>
-      </view>
-
-      <view class="advice-item">
-        <view class="advice-label normal">平</view>
-        <view class="advice-colors">
-          <view class="color-tag normal" wx:for="{{result.today.normal}}" wx:key="index">
-            {{item}}
+        <view class="advice-row">
+          <view class="row-dot goyi-dot"></view>
+          <view class="row-body">
+            <view class="row-title goyi-text">出行宜</view>
+            <view class="row-desc">{{result.today.activity}}</view>
           </view>
-          <text wx:if="{{result.today.normal.length === 0}}" class="empty-tip">—</text>
         </view>
       </view>
     </view>
 
-    <view class="divider"></view>
-
-    <view class="detail-info">
-      <view class="detail-item">
-        <text class="detail-label">心情状态：</text>
-        <text class="detail-value">{{result.today.mood}}</text>
-      </view>
-      <view class="detail-item">
-        <text class="detail-label">活动建议：</text>
-        <text class="detail-value">{{result.today.activity}}</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 本周运势 -->
-  <view wx:if="{{type === 'week'}}" class="card">
-    <view class="result-title">本周穿衣建议</view>
-
-    <view class="week-item" wx:for="{{result.week}}" wx:key="date">
-      <view class="week-header">
-        <text class="week-date">{{item.date.slice(5)}}（{{item.weekday}}）</text>
-        <text class="week-wuxing">{{item.wuxingDisplay}}</text>
-      </view>
-
-      <view class="week-advice">
-        <view class="week-advice-row">
-          <text class="week-label suitable">适合：</text>
-          <text class="week-value">{{item.suitable.join('、')}}</text>
-        </view>
-        <view class="week-advice-row">
-          <text class="week-label unsuitable">不适合：</text>
-          <text class="week-value">{{item.unsuitable.join('、')}}</text>
-        </view>
-        <view class="week-advice-row">
-          <text class="week-label normal">平：</text>
-          <text class="week-value">{{item.normal.join('、')}}</text>
+    <!-- 本周运势 -->
+    <view wx:if="{{type === 'week'}}">
+      <view class="section-block">
+        <view class="section-title">📆 本周穿衣 · 出行建议</view>
+        <view class="week-card" wx:for="{{result.week}}" wx:key="date">
+          <view class="week-header">
+            <view class="week-date">📅 {{item.date.slice(5)}}（{{item.weekday}}）</view>
+            <view class="week-wx-tag">{{item.wuxingDisplay}}</view>
+          </view>
+          <view class="week-colors">
+            <view wx:if="{{item.suitable.length > 0}}" class="week-row">
+              <text class="week-label ji-text">吉：</text>
+              <view wx:for="{{item.suitable}}" wx:key="*this" wx:for-item="c" class="color-swatch-wrap">
+                <view class="color-swatch-sm" style="background:{{colorMapRef[c]}}"></view>
+                <text class="swatch-label-sm">{{c}}</text>
+              </view>
+            </view>
+            <view wx:if="{{item.unsuitable.length > 0}}" class="week-row">
+              <text class="week-label buyi-text">不宜：</text>
+              <view wx:for="{{item.unsuitable}}" wx:key="*this" wx:for-item="c" class="color-swatch-wrap">
+                <view class="color-swatch-sm" style="background:{{colorMapRef[c]}}"></view>
+                <text class="swatch-label-sm">{{c}}</text>
+              </view>
+            </view>
+          </view>
+          <view class="week-go">😊 {{item.mood}} · ✅ {{item.activity}}</view>
         </view>
       </view>
     </view>
+
   </view>
 </view>
