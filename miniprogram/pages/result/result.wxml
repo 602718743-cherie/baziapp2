@@ -24,7 +24,7 @@
 
       <!-- 穿衣建议 section -->
       <view class="section-block">
-        <view class="section-title">👗 今日穿衣建议</view>
+        <view class="section-title">今日穿衣建议</view>
 
         <!-- 吉 -->
         <view class="advice-row" wx:if="{{todayAdvice.ji.length > 0}}">
@@ -104,7 +104,7 @@
 
       <!-- 出行建议 section（同层级） -->
       <view class="section-block">
-        <view class="section-title">🗺️ 今日出行建议</view>
+        <view class="section-title">今日出行建议</view>
         <view class="advice-row">
           <view class="row-dot mood-dot"></view>
           <view class="row-body">
@@ -125,10 +125,10 @@
     <!-- 本周运势 -->
     <view wx:if="{{type === 'week'}}">
       <view class="section-block">
-        <view class="section-title">📆 本周穿衣 · 出行建议</view>
+        <view class="section-title">本周穿衣 · 出行建议</view>
         <view class="week-card" wx:for="{{result.week}}" wx:key="date">
           <view class="week-header">
-            <view class="week-date">📅 {{item.date.slice(5)}}（{{item.weekday}}）</view>
+            <view class="week-date">{{item.date.slice(5)}}（{{item.weekday}}）</view>
             <view class="week-wx-tag">{{item.wuxingDisplay}}</view>
           </view>
           <view class="week-colors">
@@ -147,7 +147,7 @@
               </view>
             </view>
           </view>
-          <view class="week-go">😊 {{item.mood}} · ✅ {{item.activity}}</view>
+          <view class="week-go">{{item.mood}} · {{item.activity}}</view>
         </view>
       </view>
     </view>

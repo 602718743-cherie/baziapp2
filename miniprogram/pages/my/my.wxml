@@ -2,36 +2,35 @@
 <view class="container">
 
   <view class="my-header">
-    <view class="my-header-title">👤 我的命主</view>
+    <view class="my-header-title">我的命主</view>
   </view>
 
-  <button class="btn-primary" style="margin-bottom:16rpx" bindtap="onAddPerson">➕ 新增命主</button>
+  <button class="btn-primary" style="margin-bottom:16rpx" bindtap="onAddPerson">新增命主</button>
 
   <!-- 人员列表 -->
   <view wx:if="{{persons.length > 0}}">
     <view class="person-card" wx:for="{{persons}}" wx:key="id">
       <view class="person-top">
-        <view class="person-avatar">🌙</view>
+        <view class="person-avatar"></view>
         <view class="person-right">
           <view class="person-name">
             {{item.name}}
             <text wx:if="{{item.isSelf}}" class="tag-self">本人</text>
           </view>
-          <view class="person-detail">🎂 {{item.birthDay}} {{item.birthTime}}</view>
+          <view class="person-detail">{{item.birthDay}} {{item.birthTime}}</view>
           <view class="person-wx">日元：{{item.mainWuxingDisplay || ''}}</view>
         </view>
       </view>
       <view class="person-btns">
-        <button class="btn-edit" bindtap="onEditPerson" data-id="{{item.id}}">✏️ 编辑</button>
-        <button class="btn-delete" bindtap="onDeletePerson" data-id="{{item.id}}">🗑️ 删除</button>
+        <button class="btn-edit" bindtap="onEditPerson" data-id="{{item.id}}">编辑</button>
+        <button class="btn-delete" bindtap="onDeletePerson" data-id="{{item.id}}">删除</button>
       </view>
     </view>
   </view>
 
   <!-- 空状态 -->
   <view class="empty-state" wx:else>
-    <view style="font-size:64rpx;margin-bottom:16rpx">🌟</view>
-    暂无命主信息\n点击"新增命主"添加
+    暂无命主信息，点击"新增命主"添加
   </view>
 
 </view>

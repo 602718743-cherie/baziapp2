@@ -3,7 +3,6 @@
 
   <!-- 头部标题 -->
   <view class="query-header">
-    <view class="header-logo">☯</view>
     <view class="header-title">五行穿衣每日指南</view>
     <view class="header-sub">以八字论穿衣 · 趋吉避凶每一天</view>
   </view>
@@ -57,7 +56,7 @@
       </picker>
     </view>
 
-    <button class="btn-primary" bindtap="onQuery">✨ 立即查询</button>
+    <button class="btn-primary" bindtap="onQuery">立即查询</button>
   </view>
 
 </view>

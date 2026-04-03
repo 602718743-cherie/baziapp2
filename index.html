@@ -404,7 +404,6 @@
 <!-- ===== 查询页 ===== -->
 <div class="page active" id="pageQuery">
   <div class="query-header">
-    <div class="logo">☯</div>
     <h1>五行穿衣每日指南</h1>
     <div class="subtitle">以八字论穿衣 · 趋吉避凶每一天</div>
   </div>
@@ -425,8 +424,8 @@
   <div class="form-card">
     <div class="form-card-title">选择查询周期</div>
     <div class="tabs">
-      <div class="tab active" data-type="today">📅 今日运势</div>
-      <div class="tab" data-type="week">📆 本周运势</div>
+      <div class="tab active" data-type="today">今日运势</div>
+      <div class="tab" data-type="week">本周运势</div>
     </div>
 
     <div class="form-item">
@@ -441,16 +440,16 @@
       <label>🕐 出生时间</label>
       <input type="time" id="birthTime">
     </div>
-    <button class="btn" id="queryBtn">✨ 立即查询</button>
+    <button class="btn" id="queryBtn">立即查询</button>
   </div>
 </div>
 
 <!-- ===== 我的页面 ===== -->
 <div class="page" id="pageMy">
   <div class="my-header">
-    <h1>👤 我的命主</h1>
+    <h1>我的命主</h1>
   </div>
-  <button class="btn" id="addUserBtn" style="margin-bottom:14px">➕ 新增命主</button>
+  <button class="btn" id="addUserBtn" style="margin-bottom:14px">新增命主</button>
   <div id="userList"></div>
 </div>
 
@@ -493,11 +492,11 @@
 <!-- ===== 底部导航 ===== -->
 <div class="nav">
   <div class="nav-item active" data-page="pageQuery">
-    <span class="nav-icon">🔮</span>
+
     <span>运势查询</span>
   </div>
   <div class="nav-item" data-page="pageMy">
-    <span class="nav-icon">👤</span>
+
     <span>我的命主</span>
   </div>
 </div>
@@ -703,7 +702,7 @@ function renderUserList() {
   userSelect.innerHTML = '<option value="">请选择命主</option>'
 
   if(list.length===0) {
-    userList.innerHTML = `<div class="empty-state"><div class="empty-icon">🌟</div>暂无命主信息<br><small>点击"新增命主"添加</small></div>`
+    userList.innerHTML = `<div class="empty-state">暂无命主信息，点击"新增命主"添加</div>`
     return
   }
 
@@ -716,13 +715,13 @@ function renderUserList() {
     userList.innerHTML += `
       <div class="user-card">
         <div class="user-top">
-          <div class="user-avatar">🌙</div>
+          <div class="user-avatar"></div>
           <div class="user-name">${user.name}${user.isSelf?'<span class="tag-self">本人</span>':''}</div>
         </div>
-        <div class="user-birth">🎂 ${user.birthDay} ${user.birthTime}&nbsp;&nbsp;|&nbsp;&nbsp;日元：${wx.display}</div>
+        <div class="user-birth">${user.birthDay} ${user.birthTime}&nbsp;&nbsp;|&nbsp;&nbsp;日元：${wx.display}</div>
         <div class="user-btns" style="margin-top:10px">
-          <button onclick="window.editUser(${user.id})">✏️ 编辑</button>
-          <button onclick="window.delUser(${user.id})">🗑️ 删除</button>
+          <button onclick="window.editUser(${user.id})">编辑</button>
+          <button onclick="window.delUser(${user.id})">删除</button>
         </div>
       </div>
     `
@@ -825,7 +824,7 @@ function queryResult(birthDate, time, type) {
     html += renderHeader(now, dayInfo)
     // 穿衣建议区块
     html += `<div class="section-block">
-      <div class="result-section-title">👗 今日穿衣建议</div>`
+      <div class="result-section-title">今日穿衣建议</div>`
     html += renderColorCard('ji',     '吉《贵人色》',   luck.ji,     WX.levelDesc.ji)
     html += renderColorCard('ciji',   '次吉《合作色》',  luck.ciji,   WX.levelDesc.ciji)
     html += renderColorCard('ping',   '平',             luck.ping,   WX.levelDesc.ping)
@@ -834,7 +833,7 @@ function queryResult(birthDate, time, type) {
     html += `</div>`
     // 出行建议区块（同层级，同结构）
     html += `<div class="section-block">
-      <div class="result-section-title">🗺️ 今日出行建议</div>
+      <div class="result-section-title">今日出行建议</div>
       <div class="section-row">
         <div class="go-dot mood-dot"></div>
         <div class="row-body">
@@ -863,7 +862,7 @@ function queryResult(birthDate, time, type) {
       <div class="result-header-title">五 行 穿 衣 每 日 指 南</div>
       <div class="result-ganzhi">命主：${meInfo.display} &nbsp;·&nbsp; ${birthDate} ${time}</div>
     </div><div class="result-body">`
-    html += `<div class="section-block"><div class="result-section-title">📆 本周穿衣 · 出行建议</div>`
+    html += `<div class="section-block"><div class="result-section-title">本周穿衣 · 出行建议</div>`
     for(let i=0;i<7;i++){
       const d = new Date()
       d.setDate(d.getDate()+i)
@@ -874,7 +873,7 @@ function queryResult(birthDate, time, type) {
       html += `
         <div class="week-day-card">
           <div class="week-day-header">
-            <div class="week-day-date">📅 ${dateStr.slice(5)}（${dayInfo.weekday}）</div>
+            <div class="week-day-date">${dateStr.slice(5)}（${dayInfo.weekday}）</div>
             <div class="week-day-wx">${dayInfo.display}</div>
           </div>
           <div class="week-color-grid">
@@ -883,7 +882,7 @@ function queryResult(birthDate, time, type) {
             ${luck.ping.length?`<div class="week-color-row"><span class="week-color-label ping-l">平：</span><div class="week-color-dots">${mkDots(luck.ping)}</div></div>`:''}
             ${luck.buyi.length?`<div class="week-color-row"><span class="week-color-label buyi-l">不宜：</span><div class="week-color-dots">${mkDots(luck.buyi)}</div></div>`:''}
           </div>
-          <div class="week-go-row">😊 ${luck.mood} &nbsp;·&nbsp; ✅ ${luck.goYi} &nbsp;·&nbsp; ⚠️ ${luck.goNo}</div>
+          <div class="week-go-row">${luck.mood} &nbsp;·&nbsp; ${luck.goYi} &nbsp;·&nbsp; ${luck.goNo}</div>
         </div>
       `
     }
