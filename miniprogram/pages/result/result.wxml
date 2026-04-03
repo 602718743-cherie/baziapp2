@@ -129,7 +129,7 @@
         <view class="section-title">本周穿衣 · 出行建议</view>
         <view class="week-card" wx:for="{{result.week}}" wx:key="date">
           <view class="week-header">
-            <view class="week-date">{{item.date.slice(5)}}（{{item.weekday}}）</view>
+            <view class="week-date">{{item.dateDisplay}}（{{item.weekday}}）</view>
             <view class="week-wx-tag">{{item.wuxingDisplay}}</view>
           </view>
           <view class="week-colors">

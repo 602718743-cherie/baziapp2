@@ -115,6 +115,7 @@ const luckUtil = {
       
       weekData.push({
         date: dateStr,
+        dateDisplay: `${m}/${d}`,
         weekday: dayInfo.weekday,
         ganZhi: dayInfo.ganZhi,
         wuxing: dayInfo.wuxing,
