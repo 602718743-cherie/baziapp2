@@ -115,7 +115,7 @@ const baziSkill = {
     const [year, month, day] = birthDay.split('-').map(Number)
     const [hour, minute] = birthTime.split(':').map(Number)
     
-    const date = new Date(year, month - 1, day, hour, minute)
+    const date = new Date(birthDay) // 使用UTC字符串避免本地时区偏差
     
     // 计算四柱
     const yearGZ = this.getYearGanZhi(year)

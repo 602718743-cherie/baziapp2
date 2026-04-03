@@ -75,7 +75,8 @@ const baziUtil = {
     const [year, month, day] = birthDay.split('-').map(Number)
     const [hour, minute] = birthTime.split(':').map(Number)
     
-    const date = new Date(year, month - 1, day, hour, minute)
+    // 用 UTC 日期字符串构造，避免本地时区偏差影响日柱计算
+    const date = new Date(birthDay)
     
     const yearGZ = this.getYearGanZhi(year)
     const monthGZ = this.getMonthGanZhi(year, month)
