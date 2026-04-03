@@ -12,20 +12,20 @@
     "backgroundColor": "#F5F5F5"
   },
   "tabBar": {
-    "color": "#666666",
-    "selectedColor": "#007AFF",
-    "backgroundColor": "#FFFFFF",
+    "color": "#9b8165",
+    "selectedColor": "#8B4513",
+    "backgroundColor": "#fffdf7",
     "borderStyle": "black",
     "list": [
       {
         "pagePath": "pages/query/query",
-        "text": "查询",
+        "text": "运势查询",
         "iconPath": "images/query.png",
         "selectedIconPath": "images/query-active.png"
       },
       {
         "pagePath": "pages/my/my",
-        "text": "我的",
+        "text": "我的命主",
         "iconPath": "images/my.png",
         "selectedIconPath": "images/my-active.png"
       }
