@@ -22,6 +22,16 @@
   border-top: 1rpx dashed #d4b896; padding-top: 10rpx;
 }
 
+/* 页面标题 */
+.result-page-title {
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #6b3a1f;
+  letter-spacing: 4rpx;
+  padding: 20rpx 0 8rpx;
+}
+
 /* body */
 .result-body { padding: 16rpx 24rpx 100rpx; }
 

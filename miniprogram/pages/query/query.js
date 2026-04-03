@@ -94,8 +94,9 @@ Page({
         ? luckUtil.calcToday(birthDay, birthTime)
         : luckUtil.calcWeek(birthDay, birthTime)
       wx.hideLoading()
+      const personName = this.data.selectedPerson ? this.data.selectedPerson.name : ''
       wx.navigateTo({
-        url: `/pages/result/result?type=${queryType}&data=${encodeURIComponent(JSON.stringify(result))}&birthDay=${birthDay}&birthTime=${birthTime}`
+        url: `/pages/result/result?type=${queryType}&data=${encodeURIComponent(JSON.stringify(result))}&birthDay=${birthDay}&birthTime=${birthTime}&personName=${encodeURIComponent(personName)}`
       })
     } catch (error) {
       wx.hideLoading()

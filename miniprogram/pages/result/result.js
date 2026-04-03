@@ -27,6 +27,8 @@ Page({
     const result = JSON.parse(decodeURIComponent(options.data))
     const birthDay = options.birthDay || ''
     const birthTime = options.birthTime || ''
+    const personName = options.personName ? decodeURIComponent(options.personName) : ''
+    const pageTitle = personName ? `${personName}的穿衣出行指南` : '穿衣出行指南'
 
     wx.setNavigationBarTitle({ title: type === 'today' ? '今日运势' : '本周运势' })
 
@@ -52,6 +54,8 @@ Page({
       result,
       birthDay,
       birthTime,
+      personName,
+      pageTitle,
       dateDay: now.getDate(),
       dateMonth: now.getMonth() + 1,
       dateYear: now.getFullYear(),

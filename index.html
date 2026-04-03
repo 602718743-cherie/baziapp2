@@ -203,9 +203,10 @@
       font-size:11px; color:#9b7455; letter-spacing:2px;
       padding-top:6px; border-top:1px dashed #d4b896;
     }
-    .result-master-info {
-      display:flex; align-items:center; justify-content:center; gap:6px;
-      margin-top:6px; flex-wrap:wrap;
+    .result-page-title {
+      text-align:center; font-size:14px; font-weight:bold;
+      color:#6b3a1f; letter-spacing:2px;
+      padding:12px 0 6px;
     }
     .master-badge {
       display:inline-flex; align-items:center; gap:4px;
@@ -398,7 +399,7 @@
 <!-- ===== 查询页 ===== -->
 <div class="page active" id="pageQuery">
   <div class="query-header">
-    <h1>五行穿衣每日指南</h1>
+    <h1>五行穿衣出行指南</h1>
     <div class="subtitle">以八字论穿衣 · 趋吉避凶每一天</div>
   </div>
 
@@ -757,7 +758,11 @@ document.getElementById('queryBtn').onclick = ()=>{
   const time = document.getElementById('birthTime').value
   const type = document.querySelector('.tab.active').dataset.type
   if(!day||!time) return alert('请填写出生日期和时间')
-  queryResult(day, time, type)
+  const selectedId = document.getElementById('userSelect').value
+  const users = storage.get('users')
+  const selectedUser = users.find(u => u.id == selectedId)
+  const personName = selectedUser ? selectedUser.name : ''
+  queryResult(day, time, type, personName)
 }
 
 // 颜色系 -> 小色块
@@ -785,8 +790,9 @@ function renderColorCard(cls, levelText, colors, desc) {
   `
 }
 
-function queryResult(birthDate, time, type) {
+function queryResult(birthDate, time, type, personName) {
   const meInfo = WX.getMainWx(birthDate)
+  const pageTitle = personName ? `${personName}的穿衣出行指南` : '穿衣出行指南'
   const now = new Date()
   const todayStr = now.toISOString().split('T')[0]
   let html = ''
@@ -818,6 +824,7 @@ function queryResult(birthDate, time, type) {
     const dayInfo = WX.getDayWx(todayStr)
     const luck = WX.getLuck(meInfo, dayInfo)
     html += renderHeader(now, dayInfo)
+    html = `<div class="result-page-title">${pageTitle}</div>` + html
     // 穿衣建议区块
     html += `<div class="section-block">
       <div class="result-section-title">今日穿衣建议</div>`
@@ -868,6 +875,7 @@ function queryResult(birthDate, time, type) {
       </div>
       <div class="result-ganzhi">命主：${meInfo.display} &nbsp;·&nbsp; ${birthDate} ${time}</div>
     </div><div class="result-body">`
+    html = `<div class="result-page-title">${pageTitle}</div>` + html
     html += `<div class="section-block"><div class="result-section-title">本周穿衣 · 出行建议</div>`
     for(let i=0;i<7;i++){
       const d = new Date()

@@ -1,6 +1,9 @@
 <!--pages/result/result.wxml-->
 <view class="result-container">
 
+  <!-- 标题 -->
+  <view class="result-page-title">{{pageTitle}}</view>
+
   <!-- 头部 -->
   <view class="result-header">
     <view class="result-today-row">
