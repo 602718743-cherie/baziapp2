@@ -32,13 +32,13 @@
   flex: 1; height: 60rpx; border-radius: 30rpx;
   border: 1rpx solid #d4c4a8; background: #f5ede0;
   font-size: 24rpx; color: #8B4513; font-family: inherit;
-  display: flex; align-items: center; justify-content: center;
+  text-align: center; line-height: 60rpx; padding: 0;
 }
 .btn-delete {
   flex: 1; height: 60rpx; border-radius: 30rpx;
   border: 1rpx solid #e8b4b4; background: #fff5f5;
   font-size: 24rpx; color: #c0392b; font-family: inherit;
-  display: flex; align-items: center; justify-content: center;
+  text-align: center; line-height: 60rpx; padding: 0;
 }
 
 /* 弹窗 */
@@ -69,9 +69,11 @@
   flex: 1; height: 80rpx; border-radius: 40rpx;
   border: 1rpx solid #d4c4a8; background: #f5ede0;
   font-size: 28rpx; color: #9b8165; font-family: inherit;
+  text-align: center; line-height: 80rpx; padding: 0;
 }
 .btn-confirm {
   flex: 1; height: 80rpx; border-radius: 40rpx; border: none;
   background: linear-gradient(135deg, #a0522d, #8B4513);
   font-size: 28rpx; color: #fff; font-family: inherit;
+  text-align: center; line-height: 80rpx; padding: 0;
 }
