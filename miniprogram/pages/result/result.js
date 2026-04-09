@@ -37,36 +37,57 @@ Page({
     const baziUtil = require('../../utils/bazi.js')
     const dateGanZhi = result.today ? result.today.ganZhi : baziUtil.getDayGanZhi(now)
 
-    // 根据命主五行动态生成描述
-    const buildDescs = (mainWx, dayWx) => {
+    // 颜色→五行反向映射
+    const COLOR_TO_WX = {
+      '白色系': '金', '黑色/蓝色系': '水', '绿色系': '木',
+      '红色系': '火', '黄色/棕色系': '土'
+    }
+    const WX_REL = (me, w) => {
       const sheng = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' }
       const ke    = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
-      const ALL   = ['木', '火', '土', '金', '水']
-      const jiWxList   = ALL.filter(w => w === mainWx || sheng[w] === mainWx).join('、')
-      const cijiWx     = sheng[mainWx]
-      const pingWxList = ALL.filter(w => ke[w] === mainWx && w !== dayWx).join('、')
-      const jiachWx    = ke[mainWx]
-      return {
-        ji:     `${jiWxList}五行与${mainWx}（命主）同气或相生，为贵人色，穿上易招贵人相助，与环境磁场和谐，宜主动出击。`,
-        ciji:   `${mainWx}（命主）生助${cijiWx}五行，能量外放，穿上适合合作沟通、商务谈判，付出后易有所得。`,
-        ping:   `${pingWxList || '此'}五行克制${mainWx}（命主），但今日不构成直接冲突，穿上状态偏平，无明显助力，重要场合建议换吉色。`,
-        jiacha: `${mainWx}（命主）克制${jiachWx}五行，穿上如逆水行舟，易消耗自身能量、精力外泄，今日尽量回避。`,
-        buyi:   `今日${dayWx}五行克制${mainWx}（命主），为不利色，穿上易感压力阻力，运势受压，建议今日回避此色系。`
-      }
+      if (w === me)           return '同我'
+      if (sheng[w] === me)    return '生我'
+      if (sheng[me] === w)    return '我生'
+      if (ke[me] === w)       return '我克'
+      if (ke[w] === me)       return '克我'
+      return ''
+    }
+    // 根据实际色系列表生成对应描述
+    const descForLevel = (colors, mainWx, level) => {
+      if (!colors || colors.length === 0) return ''
+      const wxList = colors.map(c => COLOR_TO_WX[c]).filter(Boolean)
+      const wxStr = wxList.join('、')
+      const relDesc = wxList.map(w => {
+        const rel = WX_REL(mainWx, w)
+        const relMap = { '同我': '与命主同气', '生我': '生扶命主', '我生': '命主所生', '我克': '命主所克', '克我': '克制命主' }
+        return `${w}（${relMap[rel] || rel}）`
+      }).join('、')
+      if (level === 'ji')     return `${relDesc}，为贵人色，穿上易招贵人相助，与环境磁场和谐，宜主动出击。`
+      if (level === 'ciji')   return `${relDesc}，能量外放，穿上适合合作沟通、商务谈判，付出后易有所得。`
+      if (level === 'ping')   return `${relDesc}，与命主有一定冲突，穿上状态偏平，无明显助力，重要场合建议换吉色。`
+      if (level === 'jiacha') return `${relDesc}，穿上易消耗自身能量、精力外泄，今日尽量回避。`
+      if (level === 'buyi')   return `${relDesc}，为不利色，穿上易感压力阻力，运势受压，建议今日回避此色系。`
+      return ''
     }
 
     let todayAdvice = { ji: [], ciji: [], ping: [], jiacha: [], buyi: [], descs: {} }
     if (type === 'today' && result.today) {
       const t = result.today
       const mainWx = result.mainWuxing || ''
-      const dayWx  = t.wuxing || ''
+      const ji     = t.ji     || t.suitable   || []
+      const ciji   = t.ciji   || []
+      const ping   = t.ping   || []
+      const jiacha = t.jiacha || []
+      const buyi   = t.buyi   || t.unsuitable || []
       todayAdvice = {
-        ji:     t.ji     || t.suitable   || [],
-        ciji:   t.ciji   || [],
-        ping:   t.ping   || [],
-        jiacha: t.jiacha || [],
-        buyi:   t.buyi   || t.unsuitable || [],
-        descs:  buildDescs(mainWx, dayWx)
+        ji, ciji, ping, jiacha, buyi,
+        descs: {
+          ji:     descForLevel(ji,     mainWx, 'ji'),
+          ciji:   descForLevel(ciji,   mainWx, 'ciji'),
+          ping:   descForLevel(ping,   mainWx, 'ping'),
+          jiacha: descForLevel(jiacha, mainWx, 'jiacha'),
+          buyi:   descForLevel(buyi,   mainWx, 'buyi'),
+        }
       }
     }
 
