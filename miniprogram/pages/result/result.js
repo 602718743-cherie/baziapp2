@@ -39,15 +39,19 @@ Page({
 
     // 根据命主五行动态生成描述
     const buildDescs = (mainWx, dayWx) => {
-      const jiRel = dayWx === mainWx
-        ? `${dayWx}（今日）与${mainWx}（命主）同气`
-        : `${dayWx}（今日）生扶${mainWx}（命主）`
+      const sheng = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' }
+      const ke    = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
+      const ALL   = ['木', '火', '土', '金', '水']
+      const jiWxList   = ALL.filter(w => w === mainWx || sheng[w] === mainWx).join('、')
+      const cijiWx     = sheng[mainWx]
+      const pingWxList = ALL.filter(w => ke[w] === mainWx && w !== dayWx).join('、')
+      const jiachWx    = ke[mainWx]
       return {
-        ji:     `${jiRel}，为贵人色，穿上易招贵人相助，与环境磁场和谐，宜主动出击。`,
-        ciji:   `${mainWx}（命主）生助今日${dayWx}，能量外放，穿上适合合作沟通、商务谈判，付出后易有所得。`,
-        ping:   `此色系五行克制${mainWx}（命主），但今日不构成直接冲突，穿上状态偏平，无明显助力，重要场合建议换吉色。`,
-        jiacha: `${mainWx}（命主）克制此色系，穿上易消耗自身能量、精力外泄，做事费力收效甚微，今日尽量回避。`,
-        buyi:   `今日${dayWx}克制${mainWx}（命主），为不利色，穿上易感压力阻力，运势受压，建议今日回避此色系。`
+        ji:     `${jiWxList}五行与${mainWx}（命主）同气或相生，为贵人色，穿上易招贵人相助，与环境磁场和谐，宜主动出击。`,
+        ciji:   `${mainWx}（命主）生助${cijiWx}五行，能量外放，穿上适合合作沟通、商务谈判，付出后易有所得。`,
+        ping:   `${pingWxList || '此'}五行克制${mainWx}（命主），但今日不构成直接冲突，穿上状态偏平，无明显助力，重要场合建议换吉色。`,
+        jiacha: `${mainWx}（命主）克制${jiachWx}五行，穿上如逆水行舟，易消耗自身能量、精力外泄，今日尽量回避。`,
+        buyi:   `今日${dayWx}五行克制${mainWx}（命主），为不利色，穿上易感压力阻力，运势受压，建议今日回避此色系。`
       }
     }
 
