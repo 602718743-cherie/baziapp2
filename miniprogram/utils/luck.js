@@ -72,7 +72,24 @@ const luckUtil = {
   getClothingAdvice(mainWuxing, dayWuxing) {
     const levels = this.getColorLevels(mainWuxing, dayWuxing)
     const relation = this.getRelation(mainWuxing, dayWuxing)
-    const goodRel = ['助', '生'].includes(relation)
+
+    const moodMap = {
+      '助': '今日与自身五行同气，状态平稳顺畅，做事得心应手',
+      '生': '今日五行生扶命主，贵人运强，事半功倍，宜主动出击',
+      '泄': '今日五行泄耗命主，精力较易分散，宜专注一件事',
+      '克': '今日五行克制命主，阻力较大，凡事留余地，勿强行',
+      '制': '今日五行克制命主，易感压力，适合低调行事，养精蓄锐',
+      '平': '今日五行与命主无强烈冲突，状态中正，随遇而安'
+    }
+    const activityMap = {
+      '助': '适合稳步推进日常事务、整理规划',
+      '生': '适合出行、见贵人、谈合作、重要约会',
+      '泄': '适合创作、教学、帮助他人，避免大额消耗',
+      '克': '适合独处思考、学习充电，避免重要决策',
+      '制': '适合休息调整、近处活动，避免冲突与争论',
+      '平': '适合日常活动，顺势而为'
+    }
+
     return {
       relation,
       ji:       levels.ji,
@@ -80,12 +97,11 @@ const luckUtil = {
       ping:     levels.ping,
       jiacha:   levels.jiacha,
       buyi:     levels.buyi,
-      // 兼容旧字段
       suitable:   levels.ji,
       unsuitable: levels.buyi,
       normal:     levels.ping,
-      mood:     goodRel ? '状态顺畅，心情舒畅' : '状态一般，谨慎为上',
-      activity: goodRel ? '适合出行、约会、办事' : '适合近处活动、休息'
+      mood:     moodMap[relation]    || '状态平稳，保持常态',
+      activity: activityMap[relation] || '适合日常活动'
     }
   },
 
