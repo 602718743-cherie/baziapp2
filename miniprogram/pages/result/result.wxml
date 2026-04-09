@@ -38,7 +38,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">今日五行生扶命主，贵人运强，易得他人相助，与周遭磁场和谐共振，宜主动出击。</view>
+            <view class="row-desc">{{todayAdvice.descs.ji}}</view>
           </view>
         </view>
 
@@ -53,7 +53,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">命主五行生助今日，能量外放，适合合作沟通、商务谈判，付出后易有所得。</view>
+            <view class="row-desc">{{todayAdvice.descs.ciji}}</view>
           </view>
         </view>
 
@@ -68,7 +68,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">此色系与今日五行有一定冲突，穿上状态偏平，无明显助力，日常场合尚可，重要场合建议换吉色。</view>
+            <view class="row-desc">{{todayAdvice.descs.ping}}</view>
           </view>
         </view>
 
@@ -83,7 +83,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">命主消耗此色系能量，穿上易感疲惫、精力外泄，做事费力而收效甚微，今日尽量回避。</view>
+            <view class="row-desc">{{todayAdvice.descs.jiacha}}</view>
           </view>
         </view>
 
@@ -98,7 +98,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">今日五行克制命主，穿上易感压力与阻力，运势受压，建议今日回避此色系。</view>
+            <view class="row-desc">{{todayAdvice.descs.buyi}}</view>
           </view>
         </view>
       </view>
