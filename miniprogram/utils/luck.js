@@ -68,6 +68,7 @@ const luckUtil = {
     // 统计当日旺五行（天干+地支，同五行计2分，不同各计1分）
     const dayPower = {}
     ALL.forEach(w => { dayPower[w] = 0 })
+    // 天干地支各权重1，互相克制时效果自然抵消（如癸水+丑土互克，净结果接近底色）
     if (ganWuxing) dayPower[ganWuxing] += 1
     if (zhiWuxing) dayPower[zhiWuxing] += 1
 
