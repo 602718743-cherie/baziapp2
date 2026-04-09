@@ -42,9 +42,11 @@ Page({
       '白色系': '金', '黑色/蓝色系': '水', '绿色系': '木',
       '红色系': '火', '黄色/棕色系': '土'
     }
-    const WX_REL = (me, w) => {
-      const sheng = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' }
-      const ke    = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
+    const sheng = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' }
+    const ke    = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
+
+    // 获取五行与命主的基础关系
+    const getBaseRel = (me, w) => {
       if (w === me)           return '同我'
       if (sheng[w] === me)    return '生我'
       if (sheng[me] === w)    return '我生'
@@ -52,28 +54,57 @@ Page({
       if (ke[w] === me)       return '克我'
       return ''
     }
-    // 根据实际色系列表生成对应描述
-    const descForLevel = (colors, mainWx, level) => {
+
+    // 根据当日干支判断某五行被强化还是被削弱（返回影响说明或空字符串）
+    const getDayEffect = (wx, ganWx, zhiWx) => {
+      const dayWxs = [ganWx, zhiWx].filter(Boolean)
+      const notes = []
+      dayWxs.forEach(d => {
+        if (d === wx) notes.push(`今日${d}旺，同气加持`)
+        else if (ke[d] === wx) notes.push(`今日${d}旺，受克力减`)
+        else if (ke[wx] === d) notes.push(`今日${d}旺，反成护盾`)
+        else if (sheng[d] === wx) notes.push(`今日${d}旺，生助更强`)
+      })
+      // 去重取最关键一条
+      return notes.length > 0 ? notes[0] : ''
+    }
+
+    // 每级描述模板
+    const relTextMap = {
+      '同我': '与命主同气',
+      '生我': '生扶命主',
+      '我生': '命主泄气于此',
+      '我克': '命主克制耗气',
+      '克我': '克制命主'
+    }
+    const levelAdvice = {
+      ji:     '为贵人色，穿上易招贵人，整体磁场顺畅。',
+      ciji:   '为合作色，适合沟通谈判，付出易有收获。',
+      ping:   '状态偏平，无明显助力，重要场合建议换吉色。',
+      jiacha: '易消耗精力，做事费力，今日尽量少用。',
+      buyi:   '为不利色，易感压力阻力，建议今日回避。'
+    }
+
+    const descForLevel = (colors, mainWx, level, ganWx, zhiWx) => {
       if (!colors || colors.length === 0) return ''
-      const wxList = colors.map(c => COLOR_TO_WX[c]).filter(Boolean)
-      const wxStr = wxList.join('、')
-      const relDesc = wxList.map(w => {
-        const rel = WX_REL(mainWx, w)
-        const relMap = { '同我': '与命主同气', '生我': '生扶命主', '我生': '命主所生', '我克': '命主所克', '克我': '克制命主' }
-        return `${w}（${relMap[rel] || rel}）`
+      const parts = colors.map(c => {
+        const w = COLOR_TO_WX[c]
+        if (!w) return c
+        const rel = getBaseRel(mainWx, w)
+        const relText = relTextMap[rel] || ''
+        const effect = getDayEffect(w, ganWx, zhiWx)
+        const effectStr = effect ? `，${effect}` : ''
+        return `${c}（${w}${relText ? '·' + relText : ''}${effectStr}）`
       }).join('、')
-      if (level === 'ji')     return `${relDesc}，为贵人色，穿上易招贵人相助，与环境磁场和谐，宜主动出击。`
-      if (level === 'ciji')   return `${relDesc}，能量外放，穿上适合合作沟通、商务谈判，付出后易有所得。`
-      if (level === 'ping')   return `${relDesc}，与命主有一定冲突，穿上状态偏平，无明显助力，重要场合建议换吉色。`
-      if (level === 'jiacha') return `${relDesc}，穿上易消耗自身能量、精力外泄，今日尽量回避。`
-      if (level === 'buyi')   return `${relDesc}，为不利色，穿上易感压力阻力，运势受压，建议今日回避此色系。`
-      return ''
+      return `${parts}，${levelAdvice[level]}`
     }
 
     let todayAdvice = { ji: [], ciji: [], ping: [], jiacha: [], buyi: [], descs: {} }
     if (type === 'today' && result.today) {
       const t = result.today
       const mainWx = result.mainWuxing || ''
+      const ganWx  = t.wuxing     || ''
+      const zhiWx  = t.zhiWuxing  || ''
       const ji     = t.ji     || t.suitable   || []
       const ciji   = t.ciji   || []
       const ping   = t.ping   || []
@@ -82,11 +113,11 @@ Page({
       todayAdvice = {
         ji, ciji, ping, jiacha, buyi,
         descs: {
-          ji:     descForLevel(ji,     mainWx, 'ji'),
-          ciji:   descForLevel(ciji,   mainWx, 'ciji'),
-          ping:   descForLevel(ping,   mainWx, 'ping'),
-          jiacha: descForLevel(jiacha, mainWx, 'jiacha'),
-          buyi:   descForLevel(buyi,   mainWx, 'buyi'),
+          ji:     descForLevel(ji,     mainWx, 'ji',     ganWx, zhiWx),
+          ciji:   descForLevel(ciji,   mainWx, 'ciji',   ganWx, zhiWx),
+          ping:   descForLevel(ping,   mainWx, 'ping',   ganWx, zhiWx),
+          jiacha: descForLevel(jiacha, mainWx, 'jiacha', ganWx, zhiWx),
+          buyi:   descForLevel(buyi,   mainWx, 'buyi',   ganWx, zhiWx),
         }
       }
     }
