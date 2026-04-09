@@ -89,6 +89,22 @@ const luckUtil = {
       '制': '适合休息调整、近处活动，避免冲突与争论',
       '平': '适合日常活动，顺势而为'
     }
+    const moodShortMap = {
+      '助': '状态平稳顺畅',
+      '生': '贵人运强，事半功倍',
+      '泄': '精力易分散，宜专注',
+      '克': '阻力较大，留余地',
+      '制': '易感压力，低调为宜',
+      '平': '状态中正，随遇而安'
+    }
+    const activityShortMap = {
+      '助': '宜整理规划',
+      '生': '宜出行见贵人',
+      '泄': '宜合作，忌大额消耗',
+      '克': '宜充电，忌重要决策',
+      '制': '宜休息，忌争论',
+      '平': '宜日常活动'
+    }
 
     return {
       relation,
@@ -100,8 +116,10 @@ const luckUtil = {
       suitable:   levels.ji,
       unsuitable: levels.buyi,
       normal:     levels.ping,
-      mood:     moodMap[relation]    || '状态平稳，保持常态',
-      activity: activityMap[relation] || '适合日常活动'
+      mood:      moodMap[relation]       || '状态平稳，保持常态',
+      activity:  activityMap[relation]   || '适合日常活动',
+      moodShort: moodShortMap[relation]  || '状态平稳',
+      activityShort: activityShortMap[relation] || '宜日常活动'
     }
   },
 

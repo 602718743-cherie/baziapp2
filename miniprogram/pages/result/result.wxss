@@ -128,6 +128,11 @@
 .week-go-val {
   font-size: 22rpx; color: #7a6a58; line-height: 1.5; flex: 1;
 }
+.week-divider {
+  margin: 14rpx 0 10rpx;
+  border-top: 1rpx dashed #d4c4a8;
+}
+.week-go-sep { color: #c0aa88; }
 .week-go {
   font-size: 22rpx; color: #7a6a58; line-height: 1.6;
   padding-top: 8rpx; border-top: 1rpx dashed #e8dcc8;

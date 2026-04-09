@@ -169,13 +169,11 @@
               </view>
             </view>
           </view>
-          <view class="week-go-row">
-            <text class="week-go-label mood-text">状态：</text>
-            <text class="week-go-val">{{item.mood}}</text>
-          </view>
-          <view class="week-go-row">
-            <text class="week-go-label goyi-text">出行：</text>
-            <text class="week-go-val">{{item.activity}}</text>
+          <view class="week-divider"></view>
+          <view class="week-go">
+            <text class="mood-text">{{item.moodShort}}</text>
+            <text class="week-go-sep"> · </text>
+            <text class="goyi-text">{{item.activityShort}}</text>
           </view>
         </view>
       </view>
