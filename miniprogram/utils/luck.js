@@ -29,45 +29,64 @@ const luckUtil = {
     return '平'
   },
 
+  getColorLevels(mainWuxing, dayWuxing) {
+    const sheng = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' }
+    const ke    = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
+    const me = mainWuxing, day = dayWuxing
+    const ALL = ['木', '火', '土', '金', '水']
+
+    // 吉：生我的 + 同我的
+    const jiWx    = ALL.filter(w => w === me || sheng[w] === me)
+    // 次吉：我生的
+    const cijiWx  = ALL.filter(w => sheng[me] === w)
+    // 平：克我的（排除当日本身，当日若克我则归入不宜）
+    const pingWx  = ALL.filter(w => ke[w] === me && w !== day)
+    // 较差：我克的
+    const jiachWx = ALL.filter(w => ke[me] === w)
+    // 不宜：克我的当日五行 + 其余未分配
+    const buyiWx  = ALL.filter(w => ke[w] === me && w === day)
+
+    // 去重（优先级：吉 > 次吉 > 平 > 较差 > 不宜）
+    const used = new Set()
+    const pick = (arr) => {
+      const res = []
+      arr.forEach(w => { if (!used.has(w)) { used.add(w); res.push(w) } })
+      return res
+    }
+    const ji     = pick(jiWx)
+    const ciji   = pick(cijiWx)
+    const ping   = pick(pingWx)
+    const jiacha = pick(jiachWx)
+    const buyi   = pick(buyiWx.concat(ALL.filter(w => !used.has(w))))
+
+    const toColors = arr => arr.map(w => COLOR_MAP[w])
+    return {
+      ji:     toColors(ji),
+      ciji:   toColors(ciji),
+      ping:   toColors(ping),
+      jiacha: toColors(jiacha),
+      buyi:   toColors(buyi)
+    }
+  },
+
   getClothingAdvice(mainWuxing, dayWuxing) {
+    const levels = this.getColorLevels(mainWuxing, dayWuxing)
     const relation = this.getRelation(mainWuxing, dayWuxing)
-    const ke = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
-    
-    let advice = {
-      relation: relation,
-      suitable: [],
-      unsuitable: [],
-      normal: [],
-      mood: '',
-      activity: ''
+    const goodRel = ['助', '生'].includes(relation)
+    return {
+      relation,
+      ji:       levels.ji,
+      ciji:     levels.ciji,
+      ping:     levels.ping,
+      jiacha:   levels.jiacha,
+      buyi:     levels.buyi,
+      // 兼容旧字段
+      suitable:   levels.ji,
+      unsuitable: levels.buyi,
+      normal:     levels.ping,
+      mood:     goodRel ? '状态顺畅，心情舒畅' : '状态一般，谨慎为上',
+      activity: goodRel ? '适合出行、约会、办事' : '适合近处活动、休息'
     }
-    
-    if (['助', '生'].includes(relation)) {
-      // 使用Set去重
-      const suitableSet = new Set([COLOR_MAP[mainWuxing], COLOR_MAP[dayWuxing]])
-      advice.suitable = Array.from(suitableSet)
-      
-      const keWuxing = Object.keys(ke).find(k => ke[k] === mainWuxing)
-      advice.unsuitable = keWuxing ? [COLOR_MAP[keWuxing]] : []
-      advice.mood = '状态顺畅，心情舒畅'
-      advice.activity = '适合出行、约会、办事'
-    } else if (['制', '克'].includes(relation)) {
-      advice.suitable = [COLOR_MAP[mainWuxing]]
-      advice.unsuitable = [COLOR_MAP[dayWuxing]]
-      advice.mood = '状态一般，谨慎为上'
-      advice.activity = '适合近处活动、休息'
-    } else {
-      advice.suitable = [COLOR_MAP[mainWuxing]]
-      advice.unsuitable = [COLOR_MAP[dayWuxing]]
-      advice.mood = '状态平稳，保持常态'
-      advice.activity = '适合日常活动'
-    }
-    
-    // 计算平级色系（去重）
-    const usedColors = [...new Set([...advice.suitable, ...advice.unsuitable])]
-    advice.normal = ALL_COLORS.filter(c => !usedColors.includes(c))
-    
-    return advice
   },
 
   calcToday(birthDay, birthTime) {
@@ -89,10 +108,14 @@ const luckUtil = {
         wuxing: dayInfo.wuxing,
         wuxingFull: dayInfo.wuxingFull,
         wuxingDisplay: dayInfo.wuxingDisplay,
+        ji:       advice.ji,
+        ciji:     advice.ciji,
+        ping:     advice.ping,
+        jiacha:   advice.jiacha,
+        buyi:     advice.buyi,
         suitable: advice.suitable,
         unsuitable: advice.unsuitable,
-        normal: advice.normal,
-        mood: advice.mood,
+        mood:     advice.mood,
         activity: advice.activity
       }
     }
@@ -121,10 +144,14 @@ const luckUtil = {
         wuxing: dayInfo.wuxing,
         wuxingFull: dayInfo.wuxingFull,
         wuxingDisplay: dayInfo.wuxingDisplay,
+        ji:       advice.ji,
+        ciji:     advice.ciji,
+        ping:     advice.ping,
+        jiacha:   advice.jiacha,
+        buyi:     advice.buyi,
         suitable: advice.suitable,
         unsuitable: advice.unsuitable,
-        normal: advice.normal,
-        mood: advice.mood,
+        mood:     advice.mood,
         activity: advice.activity
       })
     }
