@@ -130,7 +130,7 @@
         <view class="week-card" wx:for="{{result.week}}" wx:key="date">
           <view class="week-header">
             <view class="week-date">{{item.dateDisplay}}（{{item.weekday}}）</view>
-            <view class="week-wx-tag">{{item.wuxingDisplay}}</view>
+            <view class="week-wx-tag">{{item.ganZhi}}</view>
           </view>
           <view class="week-colors">
             <view wx:if="{{item.ji.length > 0}}" class="week-row">
