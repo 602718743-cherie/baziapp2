@@ -41,11 +41,11 @@ Page({
     if (type === 'today' && result.today) {
       const t = result.today
       todayAdvice = {
-        ji:     t.suitable || [],
-        ciji:   [],
-        ping:   [],
-        jiacha: [],
-        buyi:   t.unsuitable || []
+        ji:     t.ji     || t.suitable   || [],
+        ciji:   t.ciji   || [],
+        ping:   t.ping   || [],
+        jiacha: t.jiacha || [],
+        buyi:   t.buyi   || t.unsuitable || []
       }
     }
 
