@@ -40,6 +40,13 @@ const COLOR_MAP = {
   '水': '黑色/蓝色系'
 }
 
+// 地支五行映射
+const DIZHI_WUXING = {
+  '子': '水', '丑': '土', '寅': '木', '卯': '木',
+  '辰': '土', '巳': '火', '午': '火', '未': '土',
+  '申': '金', '酉': '金', '戌': '土', '亥': '水'
+}
+
 const baziUtil = {
   getYearGanZhi(year) {
     const baseYear = 1900
@@ -106,14 +113,18 @@ const baziUtil = {
     const dateObj = new Date(date)
     const dayGZ = this.getDayGanZhi(dateObj)
     const dayGan = dayGZ[0]
+    const dayZhi = dayGZ[1]
     const dayGanInfo = TIANGAN_WUXING[dayGan]
+    const zhiWuxing = DIZHI_WUXING[dayZhi]
     const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
     const weekday = weekdays[dateObj.getDay()]
     
     return {
       ganZhi: dayGZ,
       dayGan: dayGan,
-      wuxing: dayGanInfo.wuxing,
+      dayZhi: dayZhi,
+      wuxing: dayGanInfo.wuxing,      // 天干五行
+      zhiWuxing: zhiWuxing,           // 地支五行
       wuxingFull: dayGanInfo.full,
       wuxingDisplay: dayGanInfo.displayName,
       yinyang: dayGanInfo.yinyang,

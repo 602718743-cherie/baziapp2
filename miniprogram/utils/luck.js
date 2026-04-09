@@ -29,35 +29,83 @@ const luckUtil = {
     return '平'
   },
 
-  getColorLevels(mainWuxing, dayWuxing) {
+  /**
+   * 按豆包逻辑计算颜色吉凶
+   * 两层：① 命主底色（固定） ② 当日天干+地支旺衰调整
+   *
+   * 底色基础（以命主五行 me 为参考）：
+   *   同我(me)  → 吉
+   *   生我       → 吉/平吉
+   *   我生       → 次吉/平
+   *   我克       → 平/偏忌
+   *   克我       → 忌/凶
+   *
+   * 当日干支调整规则（天干五行 + 地支五行各贡献一份旺度）：
+   *   当日水旺 → 水升吉，土降平
+   *   当日木旺 → 木升耗，金吉度下降
+   *   当日火旺 → 火升凶大忌，木也忌（木生火助凶）
+   *   当日土旺 → 土升吉，水降平
+   *   当日金旺 → 金升吉，木更忌
+   */
+  getColorLevels(mainWuxing, ganWuxing, zhiWuxing) {
     const sheng = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' }
     const ke    = { '木': '土', '土': '水', '水': '火', '火': '金', '金': '木' }
-    const me = mainWuxing, day = dayWuxing
+    const me = mainWuxing
     const ALL = ['木', '火', '土', '金', '水']
 
-    // 吉：生我的 + 同我的
-    const jiWx    = ALL.filter(w => w === me || sheng[w] === me)
-    // 次吉：我生的
-    const cijiWx  = ALL.filter(w => sheng[me] === w)
-    // 平：克我的（排除当日本身，当日若克我则归入不宜）
-    const pingWx  = ALL.filter(w => ke[w] === me && w !== day)
-    // 较差：我克的
-    const jiachWx = ALL.filter(w => ke[me] === w)
-    // 不宜：克我的当日五行 + 其余未分配
-    const buyiWx  = ALL.filter(w => ke[w] === me && w === day)
+    // ── 第一层：底色评分（命主固定，5分制）──
+    // 同我=5, 生我=4, 我生=3, 我克=2, 克我=1
+    const baseScore = {}
+    ALL.forEach(w => {
+      if (w === me)              baseScore[w] = 5  // 同我
+      else if (sheng[w] === me)  baseScore[w] = 4  // 生我
+      else if (sheng[me] === w)  baseScore[w] = 3  // 我生
+      else if (ke[me] === w)     baseScore[w] = 2  // 我克
+      else if (ke[w] === me)     baseScore[w] = 1  // 克我
+    })
 
-    // 去重（优先级：吉 > 次吉 > 平 > 较差 > 不宜）
-    const used = new Set()
-    const pick = (arr) => {
-      const res = []
-      arr.forEach(w => { if (!used.has(w)) { used.add(w); res.push(w) } })
-      return res
-    }
-    const ji     = pick(jiWx)
-    const ciji   = pick(cijiWx)
-    const ping   = pick(pingWx)
-    const jiacha = pick(jiachWx)
-    const buyi   = pick(buyiWx.concat(ALL.filter(w => !used.has(w))))
+    // ── 第二层：当日干支调整（天干+地支各算一份旺度）──
+    // 统计当日旺五行（天干+地支，同五行计2分，不同各计1分）
+    const dayPower = {}
+    ALL.forEach(w => { dayPower[w] = 0 })
+    if (ganWuxing) dayPower[ganWuxing] += 1
+    if (zhiWuxing) dayPower[zhiWuxing] += 1
+
+    // 根据旺五行调整评分
+    const score = { ...baseScore }
+    ALL.forEach(dayWx => {
+      if (dayPower[dayWx] === 0) return
+      const power = dayPower[dayWx]  // 1 或 2（天干地支相同时=2，加倍）
+
+      if (dayWx === '水') {
+        score['水'] += power        // 水旺→水升吉
+        score['土'] -= power        // 水旺→土受克降平
+      } else if (dayWx === '木') {
+        score['木'] += power        // 木旺→木更耗（其实耗气更强，但本身分值上升意味着穿它更「符合当日气场」）
+        score['金'] -= power        // 木旺→金被耗，吉度下降
+      } else if (dayWx === '火') {
+        score['火'] -= power * 2    // 火旺→火更凶，大幅降分
+        score['木'] -= power        // 木生火→木助凶，也降
+        score['水'] += power        // 水克火→水反成护盾，升吉
+      } else if (dayWx === '土') {
+        score['土'] += power        // 土旺→土升吉（生金）
+        score['水'] -= power        // 土旺→水受克降平
+      } else if (dayWx === '金') {
+        score['金'] += power        // 金旺→金更吉
+        score['木'] -= power        // 金旺→木更被克，更忌
+      }
+    })
+
+    // ── 按最终得分分五级 ──
+    // 排序，得分高→吉，低→不宜
+    const sorted = ALL.slice().sort((a, b) => score[b] - score[a])
+
+    // 边界划分：≥5=吉, 4=次吉, 3=平, 2=较差, ≤1=不宜（动态边界）
+    const ji     = sorted.filter(w => score[w] >= 5)
+    const ciji   = sorted.filter(w => score[w] === 4)
+    const ping   = sorted.filter(w => score[w] === 3)
+    const jiacha = sorted.filter(w => score[w] === 2)
+    const buyi   = sorted.filter(w => score[w] <= 1)
 
     const toColors = arr => arr.map(w => COLOR_MAP[w])
     return {
@@ -69,9 +117,10 @@ const luckUtil = {
     }
   },
 
-  getClothingAdvice(mainWuxing, dayWuxing) {
-    const levels = this.getColorLevels(mainWuxing, dayWuxing)
-    const relation = this.getRelation(mainWuxing, dayWuxing)
+  getClothingAdvice(mainWuxing, ganWuxing, zhiWuxing) {
+    const levels = this.getColorLevels(mainWuxing, ganWuxing, zhiWuxing)
+    // relation 仍按天干五行判断（用于出行建议）
+    const relation = this.getRelation(mainWuxing, ganWuxing)
 
     const moodMap = {
       '助': '今日与自身五行同气，状态平稳顺畅，做事得心应手',
@@ -127,7 +176,7 @@ const luckUtil = {
     const baziInfo = baziUtil.parseBazi(birthDay, birthTime)
     const today = new Date().toISOString().split('T')[0]
     const dayInfo = baziUtil.getDayWuxing(today)
-    const advice = this.getClothingAdvice(baziInfo.mainWuxing, dayInfo.wuxing)
+    const advice = this.getClothingAdvice(baziInfo.mainWuxing, dayInfo.wuxing, dayInfo.zhiWuxing)
     
     return {
       bazi: baziInfo.bazi,
@@ -140,6 +189,7 @@ const luckUtil = {
         weekday: dayInfo.weekday,
         ganZhi: dayInfo.ganZhi,
         wuxing: dayInfo.wuxing,
+        zhiWuxing: dayInfo.zhiWuxing,
         wuxingFull: dayInfo.wuxingFull,
         wuxingDisplay: dayInfo.wuxingDisplay,
         ji:       advice.ji,
@@ -168,7 +218,7 @@ const luckUtil = {
       const dateStr = `${y}-${m}-${d}`
       
       const dayInfo = baziUtil.getDayWuxing(dateStr)
-      const advice = this.getClothingAdvice(baziInfo.mainWuxing, dayInfo.wuxing)
+      const advice = this.getClothingAdvice(baziInfo.mainWuxing, dayInfo.wuxing, dayInfo.zhiWuxing)
       
       weekData.push({
         date: dateStr,
@@ -176,6 +226,7 @@ const luckUtil = {
         weekday: dayInfo.weekday,
         ganZhi: dayInfo.ganZhi,
         wuxing: dayInfo.wuxing,
+        zhiWuxing: dayInfo.zhiWuxing,
         wuxingFull: dayInfo.wuxingFull,
         wuxingDisplay: dayInfo.wuxingDisplay,
         ji:       advice.ji,
@@ -185,8 +236,10 @@ const luckUtil = {
         buyi:     advice.buyi,
         suitable: advice.suitable,
         unsuitable: advice.unsuitable,
-        mood:     advice.mood,
-        activity: advice.activity
+        mood:          advice.mood,
+        activity:      advice.activity,
+        moodShort:     advice.moodShort,
+        activityShort: advice.activityShort
       })
     }
     
