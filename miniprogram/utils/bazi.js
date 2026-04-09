@@ -66,7 +66,7 @@ const baziUtil = {
     const baseDate = new Date('1900-01-01')
     const days = Math.floor((date - baseDate) / (1000 * 60 * 60 * 24))
     const ganIndex = days % 10
-    const zhiIndex = days % 12
+    const zhiIndex = (days + 10) % 12  // 1900-01-01为甲戌，地支偏移+10
     return TIANGAN[ganIndex] + DIZHI[zhiIndex]
   },
 
