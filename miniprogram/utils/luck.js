@@ -177,7 +177,9 @@ const luckUtil = {
     const baziInfo = baziUtil.parseBazi(birthDay, birthTime)
     const today = new Date().toISOString().split('T')[0]
     const dayInfo = baziUtil.getDayWuxing(today)
+    console.log('[luck] calcToday ganZhi:', dayInfo.ganZhi, 'ganWx:', dayInfo.wuxing, 'zhiWx:', dayInfo.zhiWuxing, 'mainWx:', baziInfo.mainWuxing)
     const advice = this.getClothingAdvice(baziInfo.mainWuxing, dayInfo.wuxing, dayInfo.zhiWuxing)
+    console.log('[luck] result ji:', advice.ji, 'ciji:', advice.ciji, 'ping:', advice.ping)
     
     return {
       bazi: baziInfo.bazi,
