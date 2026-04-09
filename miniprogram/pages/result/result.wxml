@@ -38,7 +38,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">与当日五行相生，为贵人色，易招贵人，易获扶助，与整体环境磁场合一。</view>
+            <view class="row-desc">今日五行生扶命主，贵人运强，易得他人相助，与周遭磁场和谐共振，宜主动出击。</view>
           </view>
         </view>
 
@@ -53,7 +53,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">与当日五行相符，为幸运色，适合商务沟通、谈判合作等。</view>
+            <view class="row-desc">命主五行生助今日，能量外放，适合合作沟通、商务谈判，付出后易有所得。</view>
           </view>
         </view>
 
@@ -68,7 +68,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">与当日五行相克，为奋斗进财色，需付出更多努力，可通过自身努力调节带旺。</view>
+            <view class="row-desc">此色系五行克制命主，穿上需付出更多努力，做事较费力，但胜则更有成就感。</view>
           </view>
         </view>
 
@@ -83,7 +83,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">生日五行，万事会较累，适合内心强大的人挑战下。</view>
+            <view class="row-desc">命主五行克制此色系，穿上如逆水行舟，易消耗自身能量，事倍功半，建议少用。</view>
           </view>
         </view>
 
@@ -98,7 +98,7 @@
                 <text class="swatch-label">{{item}}</text>
               </view>
             </view>
-            <view class="row-desc">大环境克你，办事成效差，易导致运势低下，徒劳无功之事发生。</view>
+            <view class="row-desc">今日五行克制命主，穿上易感压力与阻力，运势受压，建议今日回避此色系。</view>
           </view>
         </view>
       </view>
