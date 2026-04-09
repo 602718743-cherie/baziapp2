@@ -119,6 +119,15 @@
   border: 1rpx solid rgba(0,0,0,0.1);
 }
 .swatch-label-sm { font-size: 20rpx; color: #5a4a38; margin-right: 4rpx; }
+.week-go-row {
+  display: flex; align-items: flex-start; margin-top: 8rpx;
+}
+.week-go-label {
+  font-size: 22rpx; font-weight: bold; white-space: nowrap; margin-right: 4rpx;
+}
+.week-go-val {
+  font-size: 22rpx; color: #7a6a58; line-height: 1.5; flex: 1;
+}
 .week-go {
   font-size: 22rpx; color: #7a6a58; line-height: 1.6;
   padding-top: 8rpx; border-top: 1rpx dashed #e8dcc8;
