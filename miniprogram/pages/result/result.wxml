@@ -134,40 +134,35 @@
           </view>
           <view class="week-colors">
             <view wx:if="{{item.ji.length > 0}}" class="week-row">
-              <view class="week-dot ji-dot"></view>
-              <text class="week-label">吉：</text>
+              <text class="week-label ji-text">吉：</text>
               <view wx:for="{{item.ji}}" wx:key="*this" wx:for-item="c" class="color-swatch-wrap">
                 <view class="color-swatch-sm" style="background:{{colorMapRef[c]}}"></view>
                 <text class="swatch-label-sm">{{c}}</text>
               </view>
             </view>
             <view wx:if="{{item.ciji.length > 0}}" class="week-row">
-              <view class="week-dot ciji-dot"></view>
-              <text class="week-label">次吉：</text>
+              <text class="week-label ciji-text">次吉：</text>
               <view wx:for="{{item.ciji}}" wx:key="*this" wx:for-item="c" class="color-swatch-wrap">
                 <view class="color-swatch-sm" style="background:{{colorMapRef[c]}}"></view>
                 <text class="swatch-label-sm">{{c}}</text>
               </view>
             </view>
             <view wx:if="{{item.ping.length > 0}}" class="week-row">
-              <view class="week-dot ping-dot"></view>
-              <text class="week-label">平：</text>
+              <text class="week-label ping-text">平：</text>
               <view wx:for="{{item.ping}}" wx:key="*this" wx:for-item="c" class="color-swatch-wrap">
                 <view class="color-swatch-sm" style="background:{{colorMapRef[c]}}"></view>
                 <text class="swatch-label-sm">{{c}}</text>
               </view>
             </view>
             <view wx:if="{{item.jiacha.length > 0}}" class="week-row">
-              <view class="week-dot jiacha-dot"></view>
-              <text class="week-label">较差：</text>
+              <text class="week-label jiacha-text">较差：</text>
               <view wx:for="{{item.jiacha}}" wx:key="*this" wx:for-item="c" class="color-swatch-wrap">
                 <view class="color-swatch-sm" style="background:{{colorMapRef[c]}}"></view>
                 <text class="swatch-label-sm">{{c}}</text>
               </view>
             </view>
             <view wx:if="{{item.buyi.length > 0}}" class="week-row">
-              <view class="week-dot buyi-dot"></view>
-              <text class="week-label">不宜：</text>
+              <text class="week-label buyi-text">不宜：</text>
               <view wx:for="{{item.buyi}}" wx:key="*this" wx:for-item="c" class="color-swatch-wrap">
                 <view class="color-swatch-sm" style="background:{{colorMapRef[c]}}"></view>
                 <text class="swatch-label-sm">{{c}}</text>
