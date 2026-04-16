@@ -116,7 +116,7 @@
         <view class="advice-row">
           <view class="row-dot goyi-dot"></view>
           <view class="row-body">
-            <view class="row-title goyi-text">出行宜</view>
+            <view class="row-title goyi-text">行动建议</view>
             <view class="row-desc">{{result.today.activity}}</view>
           </view>
         </view>
