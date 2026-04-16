@@ -64,8 +64,18 @@ Page({
   },
 
   onPersonChange(e) {
+    const persons = this.data.persons
+    if (!persons || persons.length === 0) {
+      wx.showModal({
+        title: '提示',
+        content: '请先在「我的」页面创建命主信息，或直接输入年月日进行查询',
+        showCancel: false,
+        confirmText: '我知道了'
+      })
+      return
+    }
     const idx = Number(e.detail.value)
-    const person = this.data.persons[idx]
+    const person = persons[idx]
     this.setData({
       selectedIndex: idx,
       selectedPerson: person,
